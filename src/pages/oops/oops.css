@@ -1,0 +1,22 @@
+.oops {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.oops h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.oops p, .oops a {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.embeded-link {
+    text-decoration: none;
+    color: #007bff;
+}

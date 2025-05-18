@@ -1,0 +1,82 @@
+.sidebar {
+    height: 100%;
+    background: var(--sidebar-bg);
+    color: white;
+    padding: 20px;
+}
+
+#logo {
+    width: 150px;
+    height: auto;
+    margin: auto;
+    display: block;
+    margin-bottom: 25px;
+}
+
+nav.sidebar-nav {
+    position: sticky;
+    top: 20px;
+    background-color: var(--sidebar-bg);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: var(--box-shadow);
+}
+
+nav.sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.nav-item {
+    display: block;
+    padding: 15px 30px;
+    color: white;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-item a {
+    text-decoration: none;
+    color: inherit;
+    font-weight: bold;
+}
+
+.nav-item:hover, .nav-item.active {
+    background-color: white;
+    color: var(--text-color);
+}
+
+.nav-item>ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.nav-item>ul>li {
+    padding: 8px 12px;
+    background-color: var(--subitem-bg);
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-item>ul>li:hover {
+    background-color: var(--subitem-hover-bg);
+}
+
+.nav-item li {
+    display: flex;
+    align-items: center;
+}
+
+.nav-item:not(details) li span {
+    margin-left: 8px;
+    font-size: 0.9em;
+    color: var(--subtext-color);
+}
