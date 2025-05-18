@@ -18,8 +18,6 @@ const DashboardHome = () => {
   const { data } = useData();
 
   const [playerTotalPoints, setPlayerTotalPoints] = useState<ScatterPoint[]>([]);
-  const [dataPoint, setDataPoint] = useState<ScatterItemIdentifier | null>(null);
-
 
   useEffect(() => {
     setPlayerTotalPoints(data.players?.map(player => ({
@@ -44,7 +42,7 @@ const DashboardHome = () => {
                 markerSize: 7,
               },
             ]}
-            onItemClick={(_: unknown, d: ScatterItemIdentifier) => setDataPoint(d)}
+            onItemClick={(_: unknown, d: ScatterItemIdentifier) => console.log(d)}
             xAxis={[{ label: 'Minutes Played' }]}
             yAxis={[{ label: 'Points Scored' }]}
           />

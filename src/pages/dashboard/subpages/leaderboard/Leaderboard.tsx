@@ -8,12 +8,6 @@ import { useData } from '../../../../hooks/DataContext'
 
 import type { SeasonLog } from '../../../../utils/types'
 
-interface PlayerMinimum {
-  playerId: string;
-  name: string;
-  value: number;
-}
-
 const Leaderboard = () => {
   const { data } = useData();
 

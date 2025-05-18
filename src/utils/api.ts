@@ -3,7 +3,7 @@ import type { PlayerBio, ScoutRanking, PlayerMeasurements, GameLog, SeasonLog, F
 import Data from '../assets/intern_project_data.json'
 
 function getMappedData() {
-    return new Promise<FullPlayerData[]>((resolve, reject) => {
+    return new Promise<FullPlayerData[]>((resolve) => {
         setTimeout(() => {
             let mappedData : FullPlayerData[] = [];
 

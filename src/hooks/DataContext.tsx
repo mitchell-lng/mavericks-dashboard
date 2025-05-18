@@ -27,12 +27,12 @@ interface DataContextType {
 const DataContext = createContext<DataContextType>({ 
   data: initialData, 
   resetData: () => {},
-  addToast: (message: string, type: 'success' | 'error') => {},
-  addBookmark: (playerData: FullPlayerData) => {}, 
-  removeBookmark: (playerId: number) => {},
-  setPlayers: (players: FullPlayerData[]) => {},
-  addPlayer: (playerData: FullPlayerData) => {},
-  removePlayer: (playerId: number) => {},
+  addToast: () => void 0,
+  addBookmark: () => void 0,
+  removeBookmark: () => void 0,
+  setPlayers: () => void 0,
+  addPlayer: () => void 0,
+  removePlayer: () => void 0,
 });
 
 export const DataProvider = ({ children } : { children: React.ReactNode }) => {
