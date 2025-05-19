@@ -11,7 +11,6 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 import { useAuth } from '../../../../hooks/Auth'
 
-import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -20,7 +19,12 @@ import Tooltip from '@mui/material/Tooltip';
 
 import { useData } from '../../../../hooks/DataContext'
 
-import { TextField } from '@mui/material'
+import Autocomplete from '@mui/material/Autocomplete';
+import Avatar from '@mui/material/Avatar';
+import TextField from '@mui/material/TextField';
+import ListItem from '@mui/material/ListItem';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import ListItemText from '@mui/material/ListItemText';
 
 import { faGear } from '@fortawesome/free-solid-svg-icons'
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
@@ -29,6 +33,7 @@ interface SearchResult {
   id: number
   name: string
   link: string
+  photoUrl: string
 }
 
 interface SearchResults {
@@ -54,17 +59,31 @@ const Header = () => {
 
   // Search
   const [search, setSearch] = useState('')  
-  const [searchResults, setSearchResults] = useState<SearchResults>({ results: [] })
-  const [searchEl, setSearchEl] = useState<null | HTMLElement>(null);
+  const [searchResults, setSearchResults] = useState<SearchResults>({ results: [] });
 
-  const searchOpen = Boolean(searchEl);
-  const handleSearchClick = (event: React.MouseEvent<HTMLElement>) => {
-    setSearchEl(event.currentTarget);
-  };
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (search === '') {
+        setSearchResults({ results: [] });
+        return;
+      }
 
-  const handleSearchClose = () => {
-    setSearchEl(null);
-  };
+      const filtered = data.players?.filter((player) => {
+        return player.playerBio.name.toLowerCase().includes(search.toLowerCase());
+      }) || [];
+  
+      setSearchResults({
+        results: filtered.map((player) => ({
+          id: player.playerId,
+          name: player.playerBio.name,
+          link: `/dashboard/player/${player.playerId}`,
+          photoUrl: player.playerBio.photoUrl ?? '',
+        }))
+      });
+    }, 0); // Debounce time
+  
+    return () => clearTimeout(timeout);
+  }, [search]);
 
   // Account menu
   const [accountEl, setAccountEl] = useState<null | HTMLElement>(null);
@@ -88,51 +107,50 @@ const Header = () => {
     setBookmarkEl(null);
   };
 
-  useEffect(() => {
-    setSearchResults({
-      results: data.players?.filter((player) => {
-        if (search === '') return false;
-        return player.playerBio.name.toLowerCase().includes(search.toLowerCase());
-      }).map((player) => ({
-        id: player.playerId,
-        name: player.playerBio.name,
-        link: `/dashboard/player/${player.playerId}`,
-      })) || [],
-    });
-  }, [search]);
-
   return (
     <div className="header-container">
-      <div className='search-container'>
-        <TextField
-          onChange={(e) => setSearch(e.target.value)}
-          value={search}
-          onClick={handleSearchClick}
-          id="search"
-          label="Search"
-          variant="standard"
-          size="small"
-          aria-controls={searchOpen ? 'search-menu' : undefined}
-          aria-haspopup="true"
-          aria-expanded={searchOpen ? 'true' : undefined}
-          slotProps={{
-          input: {
-            endAdornment: (
-              <InputAdornment position="start">
-                <FontAwesomeIcon icon={faMagnifyingGlass} />
-              </InputAdornment>
-            ),
-          },
+      <Autocomplete
+        freeSolo
+        options={searchResults.results}
+        getOptionLabel={(option) => typeof option === 'string' ? option : option.name}
+        filterOptions={(x) => x}
+        value={search}
+        onInputChange={(_, newInputValue) => {
+          setSearch(newInputValue);
         }}
-        />
-      </div>
-      <div id="search_results">
-        <ul>
-          {searchResults.results.map(result => (
-            <li key={result.id}><NavLink to={result.link}>{result.name}</NavLink></li>
-          ))}
-        </ul>
-      </div>
+        renderOption={(props, option) => (
+          <li {...props} key={option.id}  onClick={() => setSearch('')}>
+            <NavLink to={option.link} style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
+              <ListItem disablePadding>
+                <ListItemAvatar>
+                  <Avatar src={option.photoUrl} />
+                </ListItemAvatar>
+                <ListItemText primary={option.name} />
+              </ListItem>
+            </NavLink>
+          </li>
+        )}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            sx={{ width: '300px' }}
+            label="Search"
+            variant="standard"
+            size="small"
+            InputProps={{
+              ...params.InputProps,
+              endAdornment: (
+                <>
+                  <InputAdornment position="end">
+                    <FontAwesomeIcon icon={faMagnifyingGlass} />
+                  </InputAdornment>
+                  {params.InputProps.endAdornment}
+                </>
+              ),
+            }}
+          />
+        )}
+      />
       <div id="header-icons">
         <Tooltip title="Bookmarks">
           <IconButton
@@ -262,62 +280,6 @@ const Header = () => {
                     <Avatar src={bookmark.playerBio.photoUrl ?? ''} />
                   </ListItemIcon>
                   {bookmark.playerBio.name}
-                </MenuItem>
-              </NavLink>
-            ))
-          )
-        }
-      </Menu>
-      <Menu
-        anchorEl={searchEl}
-        id="search-menu"
-        open={searchOpen}
-        onClose={handleSearchClose}
-        onClick={handleSearchClose}
-        slotProps={{
-          paper: {
-            elevation: 0,
-            sx: {
-              overflow: 'visible',
-              filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-              mt: 1.5,
-              '& .MuiAvatar-root': {
-                width: 32,
-                height: 32,
-                ml: -0.5,
-                mr: 1,
-              },
-              '&::before': {
-                content: '""',
-                display: 'block',
-                position: 'absolute',
-                top: 0,
-                right: 14,
-                width: 10,
-                height: 10,
-                bgcolor: 'background.paper',
-                transform: 'translateY(-50%) rotate(45deg)',
-                zIndex: 0,
-              },
-            },
-          },
-        }}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-      >
-        {
-          searchResults.results.length === 0 ? (
-            <MenuItem onClick={handleSearchClose}>
-              No results found
-            </MenuItem>
-          ) : (
-            searchResults.results.map((result) => (
-              <NavLink to={result.link} key={result.id}>
-                <MenuItem onClick={handleSearchClose}>
-                  <ListItemIcon>
-                    <Avatar src={result.link} />
-                  </ListItemIcon>
-                  {result.name}
                 </MenuItem>
               </NavLink>
             ))

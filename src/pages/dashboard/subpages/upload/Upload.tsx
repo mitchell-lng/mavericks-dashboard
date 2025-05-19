@@ -12,10 +12,8 @@ import { DateField } from '@mui/x-date-pickers/DateField'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
-const Upload = () => {
-  const { data, addPlayer } = useData();
-  
-  const [playerBio, setPlayerBio] = useState({
+const defaultData = {
+  playerBio: {
     firstName: "",
     lastName: "",
     birthDate: "",
@@ -31,17 +29,15 @@ const Upload = () => {
     currentTeam: "",
     league: "",
     leagueType: "",
-  });
-
-  const [scoutRanking, setScoutRanking] = useState({
+  },
+  scoutRanking: {
     espnRank: "",
     samVecenieRank: "",
     kevinOConnorRank: "",
     kyleBooneRank: "",
     garyParrishRank: "",
-  });
-
-  const [measurements, setMeasurements] = useState({
+  },
+  measurements: {
     heightNoShoes: "",
     heightShoes: "",
     wingspan: "",
@@ -57,7 +53,19 @@ const Upload = () => {
     shuttleLeft: "",
     shuttleRight: "",
     shuttleBest: "",
-  });
+  },
+  gameLogs: [],
+  playerId: 0,
+}
+
+const Upload = () => {
+  const { data, addPlayer } = useData();
+  
+  const [playerBio, setPlayerBio] = useState(defaultData.playerBio);
+
+  const [scoutRanking, setScoutRanking] = useState(defaultData.scoutRanking);
+
+  const [measurements, setMeasurements] = useState(defaultData.measurements);
 
   const handleSubmit = () => {
     const playerId = (data.players ?? []).length + 1; // Assuming playerId is just the length of the players array + 1
@@ -72,31 +80,18 @@ const Upload = () => {
 
     const newScoutRanking = {
       playerId,
-      "ESPN Rank": Number(scoutRanking.espnRank),
-      "Sam Vecenie Rank": Number(scoutRanking.samVecenieRank),
-      "Kevin O'Connor Rank": Number(scoutRanking.kevinOConnorRank),
-      "Kyle Boone Rank": Number(scoutRanking.kyleBooneRank),
-      "Gary Parrish Rank": Number(scoutRanking.garyParrishRank),
+      "ESPN Rank": Number(scoutRanking.espnRank) || null,
+      "Sam Vecenie Rank": Number(scoutRanking.samVecenieRank) || null,
+      "Kevin O'Connor Rank": Number(scoutRanking.kevinOConnorRank) || null,
+      "Kyle Boone Rank": Number(scoutRanking.kyleBooneRank) || null,
+      "Gary Parrish Rank": Number(scoutRanking.garyParrishRank) || null,
     };
 
     const newMeasurements = {
-      ...measurements,
+      ...Object.fromEntries(
+        Object.entries(measurements).map(([key, val]) => [key, Number(val)])
+      ),
       playerId,
-      heightNoShoes: Number(measurements.heightNoShoes),
-      heightShoes: Number(measurements.heightShoes),
-      wingspan: Number(measurements.wingspan),
-      reach: Number(measurements.reach),
-      maxVertical: Number(measurements.maxVertical),
-      noStepVertical: Number(measurements.noStepVertical),
-      measurementWeight: Number(measurements.measurementWeight),
-      bodyFat: Number(measurements.bodyFat),
-      handLength: Number(measurements.handLength),
-      handWidth: Number(measurements.handWidth),
-      agility: Number(measurements.agility),
-      sprint: Number(measurements.sprint),
-      shuttleLeft: Number(measurements.shuttleLeft),
-      shuttleRight: Number(measurements.shuttleRight),
-      shuttleBest: Number(measurements.shuttleBest),
     };
 
     const newPlayerData: FullPlayerData = {
@@ -109,6 +104,11 @@ const Upload = () => {
 
     // Assuming you have a function to add the new player data to your context or state
     addPlayer(newPlayerData); // Call the function to add player data
+
+    // Reset the form
+    setPlayerBio(defaultData.playerBio);
+    setScoutRanking(defaultData.scoutRanking);
+    setMeasurements(defaultData.measurements);
   };
 
   const handleChange = (e: any, sectionSetter: any) => {
@@ -181,7 +181,7 @@ const Upload = () => {
           </div>
         </Card.Body>
       </Card>
-      <button className="button" onClick={handleSubmit}>Submit</button>
+      <button className="button upload-button" onClick={handleSubmit}>Submit</button>
     </div>
   );
 }

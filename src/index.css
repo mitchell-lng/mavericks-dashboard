@@ -2,61 +2,55 @@
 
 @font-face {
     font-family: "Avenir Heavy";
-    src:
-        local("Avenir Heavy"),
-        url("./fonts/Avenir Heavy.ttf") format("truetype");
+    src: local("Avenir Heavy"), url("./fonts/Avenir Heavy.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "Industry Bold";
-    src:
-        local("Industry Bold"),
-        url("./fonts/Industry Bold.ttf") format("truetype");
+    src: local("Industry Bold"), url("./fonts/Industry Bold.ttf") format("truetype");
 }
 
-/* Setup */
+/* Root Variables */
 
 :root {
-    --primary-color: #3498db;
-    --secondary-color: #196192;
-    --background-color: #ecf0f1;
-    --gray: #bbc4ca;
-    --gray-light: #eeeeee;
-    --text-color: #2c3e50;
-
-    --font-primary: Avenir Heavy, sans-serif;
-    --font-secondary: Industry Bold, monospace;
-
-    --border-color: var(--gray);
-    --border: 1px solid var(--border-color);
-    --border-radius: var(--border-radius);
+    /* Colors */
+    --color-primary: #3498db;
+    --color-primary-dark: #196192;
+    --color-background: #ecf0f1;
+    --color-gray: #bbc4ca;
+    --color-gray-light: #eeeeee;
+    --color-text: #2c3e50;
 
     --color-success: #2ecc71;
+    --color-success-hover: #27ae60;
     --color-error: #e74c3c;
+    --color-error-hover: #c0392b;
 
-    --card-header-font-size: 1.5rem;
-    --card-header-font-weight: bold;
-    --card-header-color: #2c3e50;
-    --card-body-font-size: 1rem;
-    --card-body-color: #34495e;
-    --card-footer-font-size: 0.875rem;
-    --card-footer-color: #7f8c8d;
-    --card-footer-link-color: #3498db;
-    --card-background-color: #ffffff;
-    
-    --button-background-color: #3498db;
-    --button-color: #ffffff;
-    --button-hover-background-color: #2980b9;
-    --button-hover-color: #ecf0f1;
-    --button-disabled-background-color: #bdc3c7;
+    /* Fonts */
+    --font-primary: "Avenir Heavy", sans-serif;
+    --font-secondary: "Industry Bold", monospace;
+
+    /* Borders */
+    --border-color: var(--color-gray);
+    --border-radius: 8px;
+    --border-default: 1px solid var(--border-color);
+
+    /* Buttons */
+    --button-bg: var(--color-primary);
+    --button-color: #fff;
+    --button-hover-bg: #115293;
+    --button-disabled-bg: #bdc3c7;
     --button-disabled-color: #7f8c8d;
 
-    --sidebar-bg: #2c3e50;
-    --sidebar-text-color: #ecf0f1;
+    /* Sidebar */
+    --sidebar-bg: var(--color-text);
+    --sidebar-text: var(--color-background);
+
+    /* Font Sizes */
+    --font-size: 16px;
 }
 
-/* Generic */
-
+/* Reset & Base Styles */
 * {
     margin: 0;
     padding: 0;
@@ -69,174 +63,174 @@ h1,
 h2,
 h3 {
     font-family: var(--font-secondary);
-    color: var(--text-color);
+    color: var(--color-text);
 }
 
-p {
-    color: var(--text-color);
+p,
+a {
+    color: var(--color-text);
+    font-size: 1rem;
+}
+
+a {
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--color-primary);
 }
 
 .visually-hidden {
-    position: absolute;
+    position: absolute !important;
     width: 1px;
     height: 1px;
     padding: 0;
     margin: -1px;
     overflow: hidden;
-    clip: rect(0, 0, 0, 0);
+    clip: rect(0 0 0 0);
     border: 0;
 }
 
-/* Basic Universal Components */
+/* Buttons */
 
 .button {
-    background-color: var(--button-background-color);
+    background-color: var(--button-bg);
     color: var(--button-color);
+    padding: 0.6rem 1.2rem;
     border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
     cursor: pointer;
-    transition: all 0.3s ease;
-    border: 1px solid var(--button-background-color);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.3s ease;
 }
 
-.button svg, a svg {
-    margin-right: 10px;
-}
-
-.button:hover {
-    background-color: var(--button-hover-background-color);
-    color: var(--button-hover-color);
+.button:hover:not(:disabled) {
+    background-color: var(--button-hover-bg);
+    color: #fff;
 }
 
 .button:disabled {
-    background-color: var(--button-disabled-background-color);
+    background-color: var(--button-disabled-bg);
     color: var(--button-disabled-color);
     cursor: not-allowed;
 }
 
-.button:disabled:hover {
-    background-color: var(--button-disabled-background-color);
-    color: var(--button-disabled-color);
-}
+/* Secondary Button */
 
-.button:disabled:active {
-    background-color: var(--button-disabled-background-color);
-    color: var(--button-disabled-color);
-}
-
-/* button secondary */
 .button-secondary {
-    border: 1px solid var(--primary-color);
-    color: var(--primary-color);
     background-color: transparent;
-    padding: 10px 20px;
-    border-radius: 5px;
+    border: var(--border-default);
+    border-color: var(--button-bg);
+    color: var(--color-primary);
     transition: background-color 0.3s ease;
-    font-size: 1rem;
-    text-align: center;
-    display: inline-block;
-}
-.button-secondary:hover {
-    background-color: var(--primary-color);
-    color: #fff;
 }
 
-/* no text button (ie just icon) */
-.button-no-text {
+.button-secondary:hover {
+    background-color: var(--button-bg);
+    color: var(--button-color);
+}
+
+/* Icon-only Button */
+
+.button-icon {
     background-color: transparent;
-    color: var(--text-color);
-    border: 1px solid var(--text-color);
+    color: var(--color-text);
+    border: var(--border-default);
     padding: 10px;
     cursor: pointer;
     font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
 }
 
-.button-no-text:hover {
-    background-color: var(--text-color);
-    color: #fff;
+.button-icon:hover {
+    background-color: var(--color-text);
+    color: var(--button-color);
 }
 
-.button-no-text svg {
-    margin-right: 0;
+.button-icon svg {
+    margin: 0;
 }
 
-/* button success */
+/* Success Button */
+
 .button-success {
     background-color: var(--color-success);
-    color: #fff;
+    color: var(--button-color);
     border: none;
     border-radius: 5px;
     padding: 10px 20px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease;
 }
 
 .button-success:hover {
-    background-color: var(--color-success);
+    background-color: var(--color-success-hover) !important;
 }
+
+/* Success Secondary */
 
 .button-success.button-secondary {
     background-color: transparent;
     color: var(--color-success);
-    border: 1px solid var(--color-success);
+    border-color: var(--color-success);
 }
 
 .button-success.button-secondary:hover {
     background-color: var(--color-success);
-    color: #fff;
+    color: var(--button-color);
 }
 
-/* error button */
+/* Error Button */
+
 .button-error {
     background-color: var(--color-error);
-    color: #fff;
+    color: var(--button-color);
     border: none;
     border-radius: 5px;
     padding: 10px 20px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease;
 }
 
 .button-error:hover {
-    background-color: var(--color-error);
+    background-color: var(--color-error-hover) !important;
 }
+
+/* Error Secondary */
 
 .button-error.button-secondary {
     background-color: transparent;
     color: var(--color-error);
-    border: 1px solid var(--color-error);
+    border-color: var(--color-error);
 }
 
 .button-error.button-secondary:hover {
     background-color: var(--color-error);
-    color: #fff;
+    color: var(--button-color);
 }
 
-/* Links */
-a {
-    text-decoration: none;
-    transition: color 0.3s ease;
-    color: var(--text-color);
-}
-a:hover {
-    color: var(--primary-color);
-}
+/* Footer */
 
-/* Footers */
 .footer {
-    background: #fff;
-    border-top: 1px solid #e0e0e0;
+    background: var(--color-background);
+    border-top: var(--border-default);
     padding: 1rem 2rem;
     text-align: center;
-    color: #666;
+    color: #fff;
     font-size: 0.875rem;
     display: flex;
     justify-content: space-between;
 }
 
-/* Subpage Styles */
+/* Subpage Container */
+
 .subpage-container {
     padding: 10px;
 }
@@ -249,23 +243,22 @@ a:hover {
     margin-top: 20px;
 }
 
-/* Toast */
+/* Toast Notifications */
+
 .toast {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: var(--primary-color);
-    color: #fff;
+    background-color: var(--color-primary);
+    color: var(--button-color);
     padding: 10px 20px;
     border-radius: 5px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     animation: fadeOut 3s ease-in-out forwards;
-}
-
-.toast span {
-    display: inline-block;
-    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .toast.success {
@@ -274,25 +267,15 @@ a:hover {
 
 .toast.error {
     background-color: var(--color-error);
-    color: #fff
 }
 
 @keyframes fadeOut {
-    0% {
-        opacity: 1;
-    }
-    100% {
+    to {
         opacity: 0;
     }
 }
 
-/* Responsive Font Sizes */
-:root {
-    --font-size: 16px;
-    --font-size-mobile: 14px;
-    --font-size-mobile-small: 12px;
-    --font-size-mobile-xsmall: 10px;
-}
+/* Responsive Typography */
 
 h1 {
     font-size: 2.25rem;
@@ -310,25 +293,12 @@ p {
     font-size: 1rem;
 }
 
-/* Responsive Design */
 @media (max-width: 1200px) {
     :root {
         --font-size: 15px;
     }
-
-    h1 {
-        font-size: 2.25rem;
-    }
-    h2 {
-        font-size: 1.75rem;
-    }
-    h3 {
-        font-size: 1.5rem;
-    }
-    p {
-        font-size: 1rem;
-    }
 }
+
 @media (max-width: 992px) {
     :root {
         --font-size: 14px;
@@ -337,34 +307,26 @@ p {
     h1 {
         font-size: 2rem;
     }
+
     h2 {
         font-size: 1.5rem;
     }
+
     h3 {
         font-size: 1.25rem;
     }
+
     p {
         font-size: 0.875rem;
     }
 }
+
 @media (max-width: 768px) {
     :root {
         --font-size: 13px;
     }
-
-    h1 {
-        font-size: 1.75rem;
-    }
-    h2 {
-        font-size: 1.5rem;
-    }
-    h3 {
-        font-size: 1.25rem;
-    }
-    p {
-        font-size: 0.875rem;
-    }
 }
+
 @media (max-width: 640px) {
     :root {
         --font-size: 12px;
@@ -373,34 +335,20 @@ p {
     h1 {
         font-size: 1.5rem;
     }
+
     h2 {
         font-size: 1.25rem;
-    }
-    h3 {
-        font-size: 1rem;
-    }
-    p {
-        font-size: 0.875rem;
-    }
-}
-@media (max-width: 576px) {
-    :root {
-        --font-size: 11px;
     }
 
-    h1 {
-        font-size: 1.25rem;
-    }
-    h2 {
-        font-size: 1.125rem;
-    }
     h3 {
         font-size: 1rem;
     }
+
     p {
         font-size: 0.875rem;
     }
 }
+
 @media (max-width: 480px) {
     :root {
         --font-size: 10px;
@@ -409,85 +357,16 @@ p {
     h1 {
         font-size: 1.125rem;
     }
+
     h2 {
         font-size: 1rem;
     }
+
     h3 {
         font-size: 0.875rem;
     }
+
     p {
         font-size: 0.75rem;
-    }
-}
-@media (max-width: 414px) {
-    :root {
-        --font-size: 9px;
-    }
-
-    h1 {
-        font-size: 1rem;
-    }
-    h2 {
-        font-size: 0.875rem;
-    }
-    h3 {
-        font-size: 0.75rem;
-    }
-    p {
-        font-size: 0.625rem;
-    }
-}
-@media (max-width: 375px) {
-    :root {
-        --font-size: 8px;
-    }
-
-    h1 {
-        font-size: 0.875rem;
-    }
-    h2 {
-        font-size: 0.75rem;
-    }
-    h3 {
-        font-size: 0.625rem;
-    }
-    p {
-        font-size: 0.5rem;
-    }
-}
-@media (max-width: 360px) {
-    :root {
-        --font-size: 7px;
-    }
-
-    h1 {
-        font-size: 0.75rem;
-    }
-    h2 {
-        font-size: 0.625rem;
-    }
-    h3 {
-        font-size: 0.5rem;
-    }
-    p {
-        font-size: 0.375rem;
-    }
-}
-@media (max-width: 320px) {
-    :root {
-        --font-size: 6px;
-    }
-
-    h1 {
-        font-size: 0.625rem;
-    }
-    h2 {
-        font-size: 0.5rem;
-    }
-    h3 {
-        font-size: 0.375rem;
-    }
-    p {
-        font-size: 0.25rem;
     }
 }

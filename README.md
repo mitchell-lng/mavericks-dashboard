@@ -117,27 +117,29 @@ Using MUI's `<ScatterChart />` with labeled points:
       },
     },
   ]}
-  sx={{
-    '.MuiChartsLabel-root': {
-      fontSize: 12,
-      fill: '#333',
-    },
-  }}
 />
 ```
 
 ## 📌 Customization Tips
 
-* Icons: Replace any MUI icons with <i className="fa-solid fa-..."></i>.
-* CSS: Keep component styling external in PlayerProfile.css.
+* CSS: Keep component styling external in css files, all global styling should remain in index.css (located in src directory)
 * Form Validation: Add custom logic with useState to manage required fields.
 
 ## 🚧 Roadmap / TODOs
 
-* Hook up form submission to backend or Firestore.
 * Add image upload preview to photoUrl input.
-* Implement multi-tab navigation in player profiles.
 * Include support for importing player stats via CSV.
+* Create scouting reports for players within player page
+* Update all dashboard subpages to use similar elements (ie main components)
+* Compare player page
+* Update responsive design
+* Add items to dashboard page
+  * Bookmarked players
+  * welcome page
+  * quick actions
+* Add charts to leaderboard page
+* Add top 10 ranked for each scouting report to leaderboard
+* Upload Data should have an upload json optioon
 
 ## 📃 License
 

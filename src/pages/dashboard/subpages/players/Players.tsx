@@ -43,27 +43,79 @@ const Players = () => {
   return (
     <>
       <h1>Players</h1>
-      <div className='list'>
-        <DataGrid
+      <DataGrid
           rows={playerList.map((player) => ({
             id: player.playerId,
             name: player.playerBio.name,
             age: new Date().getFullYear() - new Date(player.playerBio.birthDate).getFullYear(),
             height: `${Math.floor(player.playerBio.height / 12)}'${player.playerBio.height % 12}"`, // Convert inches to feet and inches
             weight: player.playerBio.weight,
-            league: player.playerBio.league,
-            team: player.playerBio.currentTeam,
-            nationality: player.playerBio.nationality,
-          }))}
-          
-          columns={[
+            espn: player.scoutRanking?.['ESPN Rank'],
+            samvecenie: player.scoutRanking?.['Sam Vecenie Rank'],
+            kevinoconnor: player.scoutRanking?.["Kevin O'Connor Rank"],
+            kyleboone: player.scoutRanking?.['Kyle Boone Rank'],
+            garyparrish: player.scoutRanking?.['Gary Parrish Rank'],
+            }))}
+            
+            columns={[
             { field: 'name', headerName: 'Name', flex: 1 },
-            { field: 'age', headerName: 'Age', type: 'number', align: 'left', headerAlign: 'left', flex: 0.5 },
+            { field: 'age', headerName: 'Age', type: 'number', align: 'left', headerAlign: 'left', flex: 0.5,
+              sortComparator: (v1, v2) => {
+              if (v1 == null && v2 == null) return 0;
+              if (v1 == null) return 1;
+              if (v2 == null) return -1;
+              return v1 - v2;
+              }
+            },
             { field: 'height', headerName: 'Height', flex: 0.5 },
-            { field: 'weight', headerName: 'Weight', flex: 0.5 },
-            { field: 'league', headerName: 'League', flex: 1 },
-            { field: 'team', headerName: 'Team', flex: 1 },
-            { field: 'nationality', headerName: 'Nationality', flex: 1 },
+            { field: 'weight', headerName: 'Weight', flex: 0.5,
+              sortComparator: (v1, v2) => {
+              if (v1 == null && v2 == null) return 0;
+              if (v1 == null) return 1;
+              if (v2 == null) return -1;
+              return v1 - v2;
+              }
+            },
+            { field: 'espn', headerName: 'ESPN', flex: 0.5,
+              sortComparator: (v1, v2) => {
+              if (v1 == null && v2 == null) return 0;
+              if (v1 == null) return 1;
+              if (v2 == null) return -1;
+              return v1 - v2;
+              }
+            },
+            { field: 'samvecenie', headerName: 'Sam Vecenie', flex: 0.5,
+              sortComparator: (v1, v2) => {
+              if (v1 == null && v2 == null) return 0;
+              if (v1 == null) return 1;
+              if (v2 == null) return -1;
+              return v1 - v2;
+              }
+            },
+            { field: 'kevinoconnor', headerName: "Kevin O'Connor", flex: 0.5,
+              sortComparator: (v1, v2) => {
+              if (v1 == null && v2 == null) return 0;
+              if (v1 == null) return 1;
+              if (v2 == null) return -1;
+              return v1 - v2;
+              }
+            },
+            { field: 'kyleboone', headerName: 'Kyle Boone', flex: 0.5,
+              sortComparator: (v1, v2) => {
+              if (v1 == null && v2 == null) return 0;
+              if (v1 == null) return 1;
+              if (v2 == null) return -1;
+              return v1 - v2;
+              }
+            },
+            { field: 'garyparrish', headerName: 'Gary Parrish', flex: 0.5,
+              sortComparator: (v1, v2) => {
+              if (v1 == null && v2 == null) return 0;
+              if (v1 == null) return 1;
+              if (v2 == null) return -1;
+              return v1 - v2;
+              }
+            },
             {
               field: 'actions',
               headerName: 'Actions',
@@ -80,14 +132,15 @@ const Players = () => {
               ),
             },
           ]}
+
           initialState={{
             pagination: {
               paginationModel: { pageSize: 20 },
             },
           }}
+
           pageSizeOptions={[10, 20, 50]}
         />
-      </div>
     </>
   )
 }

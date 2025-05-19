@@ -91,7 +91,7 @@ const Player = () => {
                   Object.entries(ranking).map(([key, value]: [string, number]) => {
                     return ( 
                       <div key={key} className="stat">
-                        <span>#{value == 0 ? 'N/A' : value}</span>
+                        <span>{(value == 0) || (value == undefined) ? 'N/A' : `#${value}`}</span>
                         <span>{key}</span>
                       </div>
                     )
