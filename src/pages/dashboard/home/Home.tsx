@@ -1,6 +1,6 @@
 import './home.css'
 
-import { Card } from '../components'
+import { Card } from '../../../components'
 
 import { useData } from '../../../hooks/DataContext'
 import { NavLink } from 'react-router';

@@ -1,0 +1,20 @@
+.comparison-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.comparison-data {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.comparison-data .card {
+    flex: 1;
+}
+
+.comparison-chart {
+    padding-top: 1rem;
+    padding-bottom: 0.5rem;
+}

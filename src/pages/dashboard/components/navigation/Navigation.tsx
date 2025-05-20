@@ -42,8 +42,9 @@ const Navigation = () => {
           {[
             { to: '', icon: faChartLine, label: 'Dashboard' },
             { to: 'players', icon: faUsers, label: 'Players' },
+            { to: 'compare', icon: faChartLine, label: 'Compare Players' },
             { to: 'leaderboard', icon: faTrophy, label: 'Leaderboard' },
-            { to: 'upload', icon: faFileImport, label: 'Upload Data' }
+            { to: 'upload', icon: faFileImport, label: 'Upload Data' },
           ].map((link) => (
             <li key={link.to}>
               <NavLink

@@ -5,7 +5,8 @@ import { useState } from 'react'
 
 import type { FullPlayerData } from '../../../utils/types'
 
-import { Card } from '../components'
+import { Card } from '../../../components'
+
 import { TextField } from '@mui/material'
 
 import { DateField } from '@mui/x-date-pickers/DateField'

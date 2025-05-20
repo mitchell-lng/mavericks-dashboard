@@ -7,7 +7,7 @@ import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
 import { Dashboard, Settings, Oops, Login, Register } from './pages'
 
 import { AuthProvider } from './hooks/Auth'
-import { ProtectedRoute } from './pages/dashboard/components'
+import { ProtectedRoute } from './components'
 
 import { DataProvider } from './hooks/DataContext'
 
@@ -42,6 +42,7 @@ const router = createBrowserRouter([
             { path: 'players', element: <Dashboard.players /> },
             { path: 'upload', element: <Dashboard.upload /> },
             { path: 'player/:id', element: <Dashboard.player /> },
+            { path: 'compare', element: <Dashboard.compare /> }
           ],
 
       },

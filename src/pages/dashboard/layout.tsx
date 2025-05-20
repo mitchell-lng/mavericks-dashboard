@@ -13,6 +13,7 @@ import Players from './players/Players'
 import Player from './player/Player'
 import Leaderboard from './leaderboard/Leaderboard'
 import Upload from './upload/Upload'
+import Compare from './compare/Compare'
 
 const Layout = ({ children } : { children: React.ReactNode }) => {
   const navigation = useNavigation()
@@ -61,5 +62,6 @@ Layout.players = Players
 Layout.player = Player
 Layout.leaderboard = Leaderboard
 Layout.upload = Upload
+Layout.compare = Compare
 
 export default Layout

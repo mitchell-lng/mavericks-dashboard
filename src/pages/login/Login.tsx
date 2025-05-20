@@ -3,7 +3,7 @@ import './login.css'
 import React, { useState } from "react";
 import { useAuth } from "../../hooks/Auth";
 
-import { Card } from "../dashboard/components";
+import { Card } from "../../components";
 
 import { TextField } from "@mui/material"
 

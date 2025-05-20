@@ -189,7 +189,10 @@ The data is fetched using the `getData` function in `api.ts`, which can be modif
 * Add image upload preview to photoUrl input.
 * Include support for importing player stats via json file.
 * Create scouting reports for players within player page
-* Compare player page
+* Add data to player compare
+* Improve player search functionality
+* Update player compare to look better
+* Add graphs!!!
 * Update / Verify responsive design
   * dashboard home
   * players

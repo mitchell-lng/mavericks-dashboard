@@ -5,9 +5,7 @@ import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { NavLink } from 'react-router'
 
-import { faBookmark, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
-
-import InputAdornment from '@mui/material/InputAdornment';
+import { faBookmark } from '@fortawesome/free-solid-svg-icons'
 
 import { useAuth } from '../../../../hooks/Auth'
 
@@ -19,26 +17,14 @@ import Tooltip from '@mui/material/Tooltip';
 
 import { useData } from '../../../../hooks/DataContext'
 
-import Autocomplete from '@mui/material/Autocomplete';
 import Avatar from '@mui/material/Avatar';
-import TextField from '@mui/material/TextField';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemText from '@mui/material/ListItemText';
 
 import { faGear } from '@fortawesome/free-solid-svg-icons'
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 
-interface SearchResult {
-  id: number
-  name: string
-  link: string
-  photoUrl: string
-}
+import { PlayerSearch } from '../index'
 
-interface SearchResults {
-  results: SearchResult[]
-}
+import { useNavigate } from 'react-router'
 
 const Header = () => {
   // Auth
@@ -47,8 +33,17 @@ const Header = () => {
     logout()
   }
 
+
+
   // Get data from context
   const { data } = useData();
+
+  const navigate = useNavigate();
+
+  const handlePlayerSelect = (id: number) => {
+    navigate(`/dashboard/player/${id}`);
+  };
+
   const [bookmarks, setBookmarks] = useState(data.bookmarks);
 
   useEffect(() => {
@@ -56,34 +51,6 @@ const Header = () => {
 
     console.log('Bookmarks updated:', data.bookmarks);
   }, [data.bookmarks]);
-
-  // Search
-  const [search, setSearch] = useState('')  
-  const [searchResults, setSearchResults] = useState<SearchResults>({ results: [] });
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (search === '') {
-        setSearchResults({ results: [] });
-        return;
-      }
-
-      const filtered = data.players?.filter((player) => {
-        return player.playerBio.name.toLowerCase().includes(search.toLowerCase());
-      }) || [];
-  
-      setSearchResults({
-        results: filtered.map((player) => ({
-          id: player.playerId,
-          name: player.playerBio.name,
-          link: `/dashboard/player/${player.playerId}`,
-          photoUrl: player.playerBio.photoUrl ?? '',
-        }))
-      });
-    }, 0); // Debounce time
-  
-    return () => clearTimeout(timeout);
-  }, [search]);
 
   // Account menu
   const [accountEl, setAccountEl] = useState<null | HTMLElement>(null);
@@ -109,48 +76,7 @@ const Header = () => {
 
   return (
     <div className="header-container">
-      <Autocomplete
-        freeSolo
-        options={searchResults.results}
-        getOptionLabel={(option) => typeof option === 'string' ? option : option.name}
-        filterOptions={(x) => x}
-        value={search}
-        onInputChange={(_, newInputValue) => {
-          setSearch(newInputValue);
-        }}
-        renderOption={(props, option) => (
-          <li {...props} key={option.id}  onClick={() => setSearch('')}>
-            <NavLink to={option.link} style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
-              <ListItem disablePadding>
-                <ListItemAvatar>
-                  <Avatar src={option.photoUrl} />
-                </ListItemAvatar>
-                <ListItemText primary={option.name} />
-              </ListItem>
-            </NavLink>
-          </li>
-        )}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            sx={{ width: '300px' }}
-            label="Search"
-            variant="standard"
-            size="small"
-            InputProps={{
-              ...params.InputProps,
-              endAdornment: (
-                <>
-                  <InputAdornment position="end">
-                    <FontAwesomeIcon icon={faMagnifyingGlass} />
-                  </InputAdornment>
-                  {params.InputProps.endAdornment}
-                </>
-              ),
-            }}
-          />
-        )}
-      />
+      <PlayerSearch function={handlePlayerSelect} />
       <div id="header-icons">
         <Tooltip title="Bookmarks">
           <IconButton

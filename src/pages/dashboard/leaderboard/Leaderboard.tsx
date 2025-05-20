@@ -1,6 +1,6 @@
 import './leaderboard.css'
 
-import { Card } from '../components'
+import { Card } from '../../../components'
 
 import { useEffect, useState } from 'react'
 
