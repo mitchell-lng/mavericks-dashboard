@@ -1,27 +1,29 @@
-.leaderboard-container {
-  padding: 20px;
-}
-
-.leaderboard-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
 .leaderboard-main {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 20px;
 }
 
-th {
-    text-align: left;
+.leaderboard-switches {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+
+.leaderboard-cards {
+  display: grid;
+  grid-template-columns: repeat(3, clamp(300px, 30vw, 400px));
+  gap: 20px;
+}
+
+th{
+  text-align: left;
 }
 
 td, th {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
 }
 
 @media (max-width: 768px) {

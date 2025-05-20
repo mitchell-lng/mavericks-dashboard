@@ -66,8 +66,11 @@ const Player = () => {
   }
 
   return (
-    <div className="player-container">
-      <main className="main-content">
+    <div className="dashboard-subpage-container">
+      <header className="dashboard-subpage-header">
+        <h1>Player Data</h1>
+      </header>
+      <main className="dashboard-subpage-content player-profile">
         <Card className="profile-card">
           <Card.Image src={playerBio.photoUrl ?? ''} alt={`${playerBio.name}'s profile`} />
           <Card.Header>

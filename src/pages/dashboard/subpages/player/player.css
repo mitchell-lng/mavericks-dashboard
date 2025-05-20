@@ -1,5 +1,5 @@
 /* Layout Structure */
-.main-content {
+.player-profile {
     display: grid;
     grid-template-areas:
         "profile-card bio-card"
@@ -10,15 +10,15 @@
     gap: 2rem;
 }
 
-.main-content > .profile-card {
+.player-profile > .profile-card {
     grid-area: profile-card;
 }
 
-.main-content > .bio-card {
+.player-profile > .bio-card {
     grid-area: bio-card;
 }
 
-.main-content > .strengths-weaknesses-card {
+.player-profile > .strengths-weaknesses-card {
     grid-area: strengths-weaknesses;
     display: flex;
     flex-direction: column;
@@ -27,15 +27,15 @@
     flex-wrap: wrap;
 }
 
-.main-content > .gamelogs-card {
+.player-profile > .gamelogs-card {
     grid-area: gamelogs;
 }
 
-.main-content > .radar-card {
+.player-profile > .radar-card {
     grid-area: radar;
 }
 
-.main-content > .bookmark-card {
+.player-profile > .bookmark-card {
     grid-area: bookmark;
 }
 
@@ -162,7 +162,7 @@ button {
 }
 
 @media (max-width: 768px) {
-    .main-content {
+    .player-profile {
         grid-template-areas:
             "profile-card"
             "bio-card"

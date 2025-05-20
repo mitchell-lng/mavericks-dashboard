@@ -26,7 +26,7 @@
 .dashboard > main {
     grid-area: main;
     padding: 20px;
-    background-color: var(--gray-light);
+    background-color: var(--background-color);
 }
 
 .dashboard > footer {
@@ -47,4 +47,16 @@
     .dashboard > aside {
         display: none;
     }
+}
+
+/* Subpage css */
+
+.dashboard-subpage-header {
+    padding-bottom: 20px;
+}
+
+.dashboard-subpage-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }

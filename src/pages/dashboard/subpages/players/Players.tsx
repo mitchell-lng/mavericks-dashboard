@@ -40,10 +40,21 @@ const Players = () => {
     return bookmarks.find((bookmark) => bookmark.playerId === playerId);
   }
 
+  // This is used to sort the columns that can have null values
+  const sortComparator = (v1: number | null, v2: number | null) => {
+    if (v1 == null && v2 == null) return 0;
+    if (v1 == null) return 1;
+    if (v2 == null) return -1;
+    return v1 - v2;
+  }
+
   return (
-    <>
-      <h1>Players</h1>
-      <DataGrid
+    <div className='dashboard-subpage-container'>
+      <header className="dashboard-subpage-header">
+        <h1>Players</h1>
+      </header>
+      <main className="dashboard-subpage-content">
+        <DataGrid
           rows={playerList.map((player) => ({
             id: player.playerId,
             name: player.playerBio.name,
@@ -56,65 +67,28 @@ const Players = () => {
             kyleboone: player.scoutRanking?.['Kyle Boone Rank'],
             garyparrish: player.scoutRanking?.['Gary Parrish Rank'],
             }))}
-            
-            columns={[
+              
+          columns={[
             { field: 'name', headerName: 'Name', flex: 1 },
             { field: 'age', headerName: 'Age', type: 'number', align: 'left', headerAlign: 'left', flex: 0.5,
-              sortComparator: (v1, v2) => {
-              if (v1 == null && v2 == null) return 0;
-              if (v1 == null) return 1;
-              if (v2 == null) return -1;
-              return v1 - v2;
-              }
+              sortComparator: sortComparator
             },
             { field: 'height', headerName: 'Height', flex: 0.5 },
-            { field: 'weight', headerName: 'Weight', flex: 0.5,
-              sortComparator: (v1, v2) => {
-              if (v1 == null && v2 == null) return 0;
-              if (v1 == null) return 1;
-              if (v2 == null) return -1;
-              return v1 - v2;
-              }
-            },
+            { field: 'weight', headerName: 'Weight', flex: 0.5 },
             { field: 'espn', headerName: 'ESPN', flex: 0.5,
-              sortComparator: (v1, v2) => {
-              if (v1 == null && v2 == null) return 0;
-              if (v1 == null) return 1;
-              if (v2 == null) return -1;
-              return v1 - v2;
-              }
+              sortComparator: sortComparator
             },
             { field: 'samvecenie', headerName: 'Sam Vecenie', flex: 0.5,
-              sortComparator: (v1, v2) => {
-              if (v1 == null && v2 == null) return 0;
-              if (v1 == null) return 1;
-              if (v2 == null) return -1;
-              return v1 - v2;
-              }
+              sortComparator: sortComparator
             },
             { field: 'kevinoconnor', headerName: "Kevin O'Connor", flex: 0.5,
-              sortComparator: (v1, v2) => {
-              if (v1 == null && v2 == null) return 0;
-              if (v1 == null) return 1;
-              if (v2 == null) return -1;
-              return v1 - v2;
-              }
+              sortComparator: sortComparator
             },
             { field: 'kyleboone', headerName: 'Kyle Boone', flex: 0.5,
-              sortComparator: (v1, v2) => {
-              if (v1 == null && v2 == null) return 0;
-              if (v1 == null) return 1;
-              if (v2 == null) return -1;
-              return v1 - v2;
-              }
+              sortComparator: sortComparator
             },
             { field: 'garyparrish', headerName: 'Gary Parrish', flex: 0.5,
-              sortComparator: (v1, v2) => {
-              if (v1 == null && v2 == null) return 0;
-              if (v1 == null) return 1;
-              if (v2 == null) return -1;
-              return v1 - v2;
-              }
+              sortComparator: sortComparator
             },
             {
               field: 'actions',
@@ -125,7 +99,7 @@ const Players = () => {
                   <NavLink to={`/dashboard/player/${params.row.id}`} className='button'>
                     View Profile
                   </NavLink>
-                  <button className={`button button-secondary ${findBookmark(params.row.id) ? ' button-error ' : 'button-success'}`} onClick={() => {handleBookmark(params.row.id); }}>
+                  <button className={`button button-secondary ${findBookmark(params.row.id) ? ' button-error ' : 'button-success'}`} onClick={() =>{handleBookmark(params.row.id); }}>
                     {findBookmark(params.row.id) ? 'Remove Bookmark' : 'Add Bookmark'}
                   </button>
                 </div>
@@ -141,7 +115,8 @@ const Players = () => {
 
           pageSizeOptions={[10, 20, 50]}
         />
-    </>
+      </main>
+    </div>
   )
 }
 

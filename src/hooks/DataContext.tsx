@@ -1,20 +1,43 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
-import type { FullPlayerData } from '../utils/types';
+import type { FullPlayerData, FullPlayerDataFieldInfoType, DataFieldMinimum } from '../utils/types';
+import { FullPlayerDataFieldInfo } from '../utils/fieldData';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 
+// Deep copy and filter only the specified keys
+const allowedKeys = ['seasonLog', 'scoutRanking', 'measurements', 'playerBio'];
+
+const leaderboardFields = Object.fromEntries(
+  Object.entries(FullPlayerDataFieldInfo)
+    .filter(([key]) => allowedKeys.includes(key))
+    .map(([key, value]) => [
+      key,
+      {
+      ...value,
+      fields: Object.fromEntries(
+        Object.entries(value.fields).filter(
+        ([, subfield]) => (subfield as any).type === 'number'
+        )
+      ),
+      },
+    ])
+  );
+
 const initialData = {
   bookmarks: [],
   players: [],
+  leaderboardFields: leaderboardFields,
 };
 
 interface DataContextType {
   data: {
     bookmarks?: FullPlayerData[];
     players?: FullPlayerData[];
+    leaderboardFields?: FullPlayerDataFieldInfoType;
   };
+
   resetData: () => void;
   addToast: (message: string, type: 'success' | 'error') => void;
   addBookmark: (playerData: FullPlayerData) => void;
@@ -22,6 +45,7 @@ interface DataContextType {
   setPlayers: (players: FullPlayerData[]) => void;
   removePlayer: (playerId: number) => void;
   addPlayer: (playerData: FullPlayerData) => void;
+  toggleLeaderboardField: (fieldData: DataFieldMinimum) => void;
 }
 
 const DataContext = createContext<DataContextType>({ 
@@ -33,10 +57,11 @@ const DataContext = createContext<DataContextType>({
   setPlayers: () => void 0,
   addPlayer: () => void 0,
   removePlayer: () => void 0,
+  toggleLeaderboardField: () => void 0,
 });
 
 export const DataProvider = ({ children } : { children: React.ReactNode }) => {
-  const [data, setData] = useState<DataContextType['data']>({});
+  const [data, setData] = useState<DataContextType['data']>(initialData);
 
   const [toast, setToast] = useState({
     show: false,
@@ -111,8 +136,40 @@ export const DataProvider = ({ children } : { children: React.ReactNode }) => {
     addToast('Bookmark removed successfully', 'error');
   };
 
+  const toggleLeaderboardField = (fieldData: DataFieldMinimum) => {
+    setData((prevData) => {
+      const parent = fieldData.parent;
+      const field = fieldData.field;
+      const parentField = prevData.leaderboardFields?.[parent];
+      if (!parentField || !parentField.fields || !parentField.fields[field]) {
+        return prevData;
+      }
+      return {
+        ...prevData,
+        leaderboardFields: {
+          ...prevData.leaderboardFields,
+          [parent]: {
+            ...parentField,
+            label: parentField.label ?? '',
+            description: parentField.description ?? '',
+            checked: parentField.checked ?? false,
+            reverse: parentField.reverse ?? false,
+            type: parentField.type,
+            fields: {
+              ...parentField.fields,
+              [field]: {
+                ...parentField.fields[field],
+                checked: !parentField.fields[field].checked,
+              },
+            },
+          },
+        },
+      };
+    });
+  };
+
   return (
-    <DataContext.Provider value={{ data, resetData, setPlayers, removePlayer, addBookmark, removeBookmark, addPlayer, addToast }}>
+    <DataContext.Provider value={{ data, resetData, setPlayers, removePlayer, addBookmark, removeBookmark, addPlayer, addToast, toggleLeaderboardField }}>
       {children}
       {toast.show && (
         <div className={`toast ${toast.type}`}>

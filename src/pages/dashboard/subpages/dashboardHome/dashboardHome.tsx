@@ -28,11 +28,12 @@ const DashboardHome = () => {
   }, [data]);
 
   return (
-    <>
+    <div className="dashboard-subpage-container">
+      <header className="dashboard-subpage-header">
+        <h1>Dashboard Home</h1>
+      </header>
+      <main className="dashboard-subpage-content">
       <Card>
-        <Card.Header >      
-          <h1>Dashboard Home</h1>
-        </Card.Header>
         <Card.Body>
           <ScatterChart
             height={600}
@@ -48,7 +49,8 @@ const DashboardHome = () => {
           />
         </Card.Body>
       </Card>
-    </>
+      </main>
+    </div>
   )
 }
 

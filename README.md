@@ -11,7 +11,6 @@ A modern basketball scouting dashboard built with **React**, **MUI (Material UI)
 - **Responsive UI**: Built with responsive layouts, Flexbox design, and styled through external CSS.
 - **Font Awesome Icons**: Integrated across components for visual clarity.
 - **Card-Based Layout**: Reusable `Card` component used for consistent white-background sections.
-- **Custom Chart Labels**: Support for labeled points in `ScatterChart` (via MUI X Charts).
 
 ---
 
@@ -28,7 +27,7 @@ A modern basketball scouting dashboard built with **React**, **MUI (Material UI)
     * Auth
     * DataContext
   * /pages
-    * /dashboard
+    * /dashboard *all subpages are included here*
     * /login
     * /oops
     * /register
@@ -36,7 +35,8 @@ A modern basketball scouting dashboard built with **React**, **MUI (Material UI)
   * utils
     * types.ts
     * api.ts
-
+  * index.css *global styles are located here*
+  * main.tsx *includes all routing information*
 
 ---
 
@@ -46,7 +46,7 @@ A modern basketball scouting dashboard built with **React**, **MUI (Material UI)
 - [Material UI (MUI)](https://mui.com/)
 - [Font Awesome](https://fontawesome.com/)
 - [MUI X Charts](https://mui.com/x/react-charts/) (for ScatterChart, Radar, etc.)
-- Custom CSS (no Tailwind)
+- Custom CSS
 
 ---
 
@@ -54,7 +54,6 @@ A modern basketball scouting dashboard built with **React**, **MUI (Material UI)
 
 The app leverages React's useContext API to share data and functions across components efficiently.
 
-### ✅ Features Supported by Context
 * 🔖 Bookmark Players
   * Users can bookmark their favorite players using a global context, allowing:
   * Quick access from any page
@@ -69,22 +68,36 @@ The app leverages React's useContext API to share data and functions across comp
   * Toast notifications are handled globally to:
     * Confirm successful actions (e.g. “Player added successfully”)
     * Show errors (e.g. “Failed to load rankings”)
-    * Use a consistent design system (via MUI Snackbar or a custom component)
+    * Use a consistent design system
 
 ### Example Usage
 
+This example shows how both data and toasts from the useContext can be used.
+
 ```tsx
 import { useData } from '../../../../hooks/DataContext'
+import type { FullPlayerData } from '../../../utils/type.ts'
 
 export default const Element = () => {
-  const { addToast } = useData();
+  const { data, addToast } = useData();
 
   const handleClick = () => {
     addToast('This is a toast!', 'success');
   }
 
   return (
-    <button className="button" onClick={handleClick}>Show a toast!</button>
+    <>
+      <ul>
+        {
+          data.players.map((player : FullPlayerData) => {
+            return (
+              <li>{ player.playerBio.name }</li>
+            )
+          })
+        }
+      </ul>
+      <button className="button" onClick={handleClick}>Show a toast!</button>
+    </>
   )
 }
 ```
@@ -97,33 +110,9 @@ export default const Element = () => {
    - **Scout Rankings**: Rankings from ESPN, The Ringer, etc.
    - **Measurements**: Detailed combine-style physical measurements.
 3. Required fields are marked (e.g., first name, last name, birthdate).
-4. Submit to update your database or internal state.
+4. Click Submit
 
 ---
-
-## 🧪 Custom Charts
-
-Using MUI's `<ScatterChart />` with labeled points:
-
-```tsx
-<ScatterChart
-  series={[
-    {
-      label: 'Players',
-      data: [{ x: 1, y: 2, name: 'Jalen Carter' }],
-      label: {
-        visible: true,
-        format: (point) => point.name,
-      },
-    },
-  ]}
-/>
-```
-
-## 📌 Customization Tips
-
-* CSS: Keep component styling external in css files, all global styling should remain in index.css (located in src directory)
-* Form Validation: Add custom logic with useState to manage required fields.
 
 ## 🚧 Roadmap / TODOs
 
@@ -144,7 +133,3 @@ Using MUI's `<ScatterChart />` with labeled points:
 ## 📃 License
 
 GNU AFFERO GENERAL PUBLIC LICENSE, more info can be found in the License.txt file.
-
-## Other Comments
-
-Let me know if you'd like a section for API endpoints, contributor credits, or deployment instructions!

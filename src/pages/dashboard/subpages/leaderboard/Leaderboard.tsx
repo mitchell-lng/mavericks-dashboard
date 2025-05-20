@@ -2,79 +2,146 @@ import './leaderboard.css'
 
 import { Card } from '../../components'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useData } from '../../../../hooks/DataContext'
 
-import type { SeasonLog } from '../../../../utils/types'
+import { Switch, FormGroup, FormControlLabel, Tooltip, Accordion, AccordionSummary, AccordionDetails } from '@mui/material'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
+
+import type { DataFieldMinimum } from '../../../../utils/types'
 
 const Leaderboard = () => {
-  const { data } = useData();
+  const { data, toggleLeaderboardField } = useData();
+
+  const [fullPlayerDataFields, setFullPlayerDataFields] = useState(data.leaderboardFields);
 
   useEffect(() => {
-    // Fetch leaderboard data when the component mounts
-    // This is just a placeholder, replace with actual data fetching logic
-  }, []);
+    setFullPlayerDataFields(data.leaderboardFields);
 
-  const getTopPlayersForStat = (field: keyof SeasonLog, reverse: boolean) => {
-    return data.players?.sort((a, b) => reverse 
-      ? (Number(a.seasonLog?.[field as keyof SeasonLog]) ?? 0) - (Number(b.seasonLog?.[field as keyof SeasonLog]) ?? 0) 
-      : (Number(b.seasonLog?.[field as keyof SeasonLog]) ?? 0) - (Number(a.seasonLog?.[field as keyof SeasonLog]) ?? 0)
-    ).slice(0, 10).map(player => ({
-      playerId: player.playerId,
-      name: player.playerBio.name,
-      value: Number(player.seasonLog?.[field as keyof SeasonLog]) ?? 0,
-    }));
+    console.log('Leaderboard fields updated:', data.leaderboardFields);
+  }, [data.leaderboardFields]);
+
+  const calculateLeaderboard = (field: string, subfield: string, reverse: boolean) => {
+    // Placeholder function to calculate leaderboard data
+    if (!data || !Array.isArray(data.players)) return [];
+
+    const players = data.players
+      .map((player: any) => {
+        const value = player[field]?.[subfield];
+        return {
+          playerId: player.id,
+          name: player.playerBio.name,
+          value: typeof value === 'number' ? value : null,
+        };
+      })
+      .filter((p: any) => typeof p.value === 'number');
+
+    if (reverse) {
+      players.sort((a: any, b: any) => {
+        if (a.value == null && b.value == null) return 0;
+        if (a.value == null) return 1;
+        if (b.value == null) return -1;
+        return a.value - b.value;
+      });
+    }
+    else {
+      players.sort((a: any, b: any) => {
+        if (a.value == null && b.value == null) return 0;
+        if (a.value == null) return 1;
+        if (b.value == null) return -1;
+        return b.value - a.value;
+      });
+    }
+
+    return players.slice(0, 10); // Top 10 players
+  
   }
 
-  const dict = {
-    'Most Points Scored': getTopPlayersForStat('PTS', false),
-    'Most Rebounds': getTopPlayersForStat('TRB', false),
-    'Most Assists': getTopPlayersForStat('AST', false),
-    'Most Steals': getTopPlayersForStat('STL', false),
-    'Most Blocks': getTopPlayersForStat('BLK', false),
-    'Least Turnovers': getTopPlayersForStat('TOV', true),
-  }
+  
 
   return (
-    <>
-      <h1>Leaderboard (average per game)</h1>
-      <div className="leaderboard-container">
-        <main className="leaderboard-main">
-        {
-          Object.entries(dict).map(([title, players], index) => (
-            (
-              <Card key={index}>
-                <Card.Header>
-                  <h2>{title}</h2>
-                </Card.Header>
-                <Card.Body>
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Rank</th>
-                        <th>Player</th>
-                        <th>Points</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                        {players?.map((player, index) => (
-                        <tr key={player.playerId}>
-                          <td>#{index + 1}</td>
-                          <td>{player.name}</td>
-                          <td>{player.value ?? 0}</td>
-                        </tr>
-                        ))}
-                    </tbody>
-                  </table>
-                </Card.Body>
-              </Card>
+    <div className="dashboard-subpage-container">
+      <header className="dashboard-subpage-header">
+        <h1>Leaderboard</h1>
+      </header>
+      <main className="dashboard-subpage-content leaderboard-main">
+        <div className='leaderboard-switches'>
+        {fullPlayerDataFields &&
+          Object.entries(fullPlayerDataFields).map(([key, field], index) => (
+            <Accordion key={index} defaultExpanded={false}>
+              <AccordionSummary expandIcon={<FontAwesomeIcon icon={faPlus} />}>
+                <p style={{ margin: 0 }}>{field.label}</p>
+              </AccordionSummary>
+              <AccordionDetails>
+                <FormGroup>
+                  {field.fields &&
+                    Object.entries(field.fields).map(([subKey, subfield], subindex) => (
+                      <Tooltip title={(subfield as { description?: string }).description || ''} arrow key={subindex}>
+                        <FormControlLabel
+                          label={(subfield as { label: string }).label}
+                          control={
+                            <Switch
+                              checked={(subfield as { checked: boolean }).checked}
+                              onChange={(_: any) => {
+                                // Handle the switch change
+                                toggleLeaderboardField({ parent: key, field: subKey } as DataFieldMinimum);
+                              }}
+                            />
+                          }
+                        />
+                      </Tooltip>
+                    ))}
+                </FormGroup>
+              </AccordionDetails>
+            </Accordion>
+          ))}
+        </div>
+        <div className='leaderboard-cards'>
+          {fullPlayerDataFields &&
+            Object.entries(fullPlayerDataFields).flatMap(([key, field]) =>
+              Object.entries(field.fields ?? {})
+                .filter(([, subfield]) => (subfield as { checked?: boolean }).checked)
+                .map(([subKey, subfield], _) => {
+                  // Example: You may want to compute leaderboard data here based on subKey
+                  // For demonstration, we'll use a placeholder array
+                  const players = calculateLeaderboard(key, subKey, (subfield as { reverse?: boolean }).reverse ?? false);
+
+                  return (
+                    <Card key={`${key}-${subKey}`}>
+                      <Card.Header>
+                        <h2>{(subfield as { label: string }).label}</h2>
+                      </Card.Header>
+                      <Card.Body>
+                        <table>
+                          <thead>
+                            <tr>
+                              <th>Rank</th>
+                              <th>Player</th>
+                              <th>Value</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {players.map((player: any, index: number) => (
+                              <tr key={player.playerId}>
+                                <td>#{index + 1}</td>
+                                <td>{player.name}</td>
+                                <td>{player.value ?? 0}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </Card.Body>
+                    </Card>
+                  );
+                })
             )
-          ))
-        }
-        </main>
-      </div>
-    </>
+          }
+        </div>
+      </main>
+    </div>
   )
 }
 

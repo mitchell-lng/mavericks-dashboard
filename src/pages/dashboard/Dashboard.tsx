@@ -8,6 +8,8 @@ import { getMappedData } from '../../utils/api'
 import { useData } from '../../hooks/DataContext'
 import { useEffect } from 'react'
 
+import { DashboardHome, Leaderboard, Player, Players, Upload } from './subpages'
+
 const Dashboard = ({ children } : { children: React.ReactNode }) => {
   const navigation = useNavigation()
   const { data, setPlayers } = useData();
@@ -49,5 +51,11 @@ const Dashboard = ({ children } : { children: React.ReactNode }) => {
     </div>
   )
 }
+
+Dashboard.home = DashboardHome
+Dashboard.players = Players
+Dashboard.player = Player
+Dashboard.leaderboard = Leaderboard
+Dashboard.upload = Upload
 
 export default Dashboard

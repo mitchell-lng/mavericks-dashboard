@@ -5,7 +5,6 @@ import './index.css'
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
 
 import { Dashboard, Settings, Oops, Login, Register } from './pages'
-import { Player, Players, Upload, Leaderboard, DashboardHome } from './pages/dashboard/subpages'
 
 import { AuthProvider } from './hooks/Auth'
 import { ProtectedRoute } from './pages/dashboard/components'
@@ -38,19 +37,13 @@ const router = createBrowserRouter([
           </ProtectedRoute>
           ),
           children: [
-            { index: true, element: <DashboardHome /> },
-            { path: 'leaderboard', element: <Leaderboard /> },
-            {
-              path: 'players',
-              element: <Players />
-            },
-            { path: 'upload', element: <Upload /> },
-            { 
-              path: 'player/:id',
-              element: <Player />,
-            },
+            { index: true, element: <Dashboard.home /> },
+            { path: 'leaderboard', element: <Dashboard.leaderboard /> },
+            { path: 'players', element: <Dashboard.players /> },
+            { path: 'upload', element: <Dashboard.upload /> },
+            { path: 'player/:id', element: <Dashboard.player /> },
           ],
-          
+
       },
       {
         path: '/settings',

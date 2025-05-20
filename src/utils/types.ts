@@ -135,4 +135,41 @@ interface FullPlayerData {
   measurements?: PlayerMeasurements;
 }
 
-export type { LeagueType, PlayerBio, ScoutRanking, PlayerMeasurements, InternProjectData, SeasonLog, GameLog, FullPlayerData };
+interface FieldType {
+  label: string;
+  description: string;
+  checked: boolean;
+  reverse?: boolean;
+  type?: string;
+}
+
+interface DataFieldMinimum {
+  parent: string;
+  field: string;
+}
+
+interface FullPlayerDataFieldInfoType {
+  [key: string]: {
+    label: string;
+    description: string;
+    checked: boolean;
+    reverse: boolean;
+    type?: string;
+    fields?: {
+      [key: string]: FieldType;
+    };
+  };
+}
+
+export type { 
+  LeagueType, 
+  PlayerBio, 
+  ScoutRanking, 
+  PlayerMeasurements, 
+  InternProjectData, 
+  SeasonLog, 
+  GameLog, 
+  FullPlayerData, 
+  FullPlayerDataFieldInfoType,
+  DataFieldMinimum
+};
