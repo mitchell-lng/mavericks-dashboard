@@ -1,5 +1,3 @@
-type LeagueType = "NCAA" | "Pro" | "G-League" | "NBL" | string;
-
 interface PlayerBio {
   name: string;
   playerId: number;
@@ -17,7 +15,7 @@ interface PlayerBio {
   photoUrl: string | null;
   currentTeam: string;
   league: string;
-  leagueType: "NCAA" | "Pro" | "G-League" | string;
+  leagueType: string;
 }
 
 interface ScoutRanking {
@@ -118,14 +116,6 @@ interface SeasonLog {
   PTS: number; // Total points scored by the player
 }
 
-interface InternProjectData {
-  bio: PlayerBio[];
-  scoutRankings: ScoutRanking[];
-  measurements: PlayerMeasurements[];
-  gameLogs: GameLog[];
-  seasonLogs: SeasonLog[];
-}
-
 interface FullPlayerData {
   playerId: number;
   playerBio: PlayerBio;
@@ -141,6 +131,7 @@ interface FieldType {
   checked: boolean;
   reverse?: boolean;
   type?: string;
+  unit?: string
 }
 
 interface DataFieldMinimum {
@@ -161,12 +152,10 @@ interface FullPlayerDataFieldInfoType {
   };
 }
 
-export type { 
-  LeagueType, 
+export type {
   PlayerBio, 
   ScoutRanking, 
   PlayerMeasurements, 
-  InternProjectData, 
   SeasonLog, 
   GameLog, 
   FullPlayerData, 

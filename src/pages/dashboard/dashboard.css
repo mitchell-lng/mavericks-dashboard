@@ -52,11 +52,23 @@
 /* Subpage css */
 
 .dashboard-subpage-header {
-    padding-bottom: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.dashboard-subpage-header-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
 }
 
 .dashboard-subpage-content {
     display: flex;
     flex-direction: column;
     gap: 20px;
+}
+
+.dashboard-subpage-content-item {
+    margin: 20px 0;
 }

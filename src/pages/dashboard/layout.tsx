@@ -8,9 +8,13 @@ import { getMappedData } from '../../utils/api'
 import { useData } from '../../hooks/DataContext'
 import { useEffect } from 'react'
 
-import { DashboardHome, Leaderboard, Player, Players, Upload } from './subpages'
+import Home from './home/Home'
+import Players from './players/Players'
+import Player from './player/Player'
+import Leaderboard from './leaderboard/Leaderboard'
+import Upload from './upload/Upload'
 
-const Dashboard = ({ children } : { children: React.ReactNode }) => {
+const Layout = ({ children } : { children: React.ReactNode }) => {
   const navigation = useNavigation()
   const { data, setPlayers } = useData();
 
@@ -52,10 +56,10 @@ const Dashboard = ({ children } : { children: React.ReactNode }) => {
   )
 }
 
-Dashboard.home = DashboardHome
-Dashboard.players = Players
-Dashboard.player = Player
-Dashboard.leaderboard = Leaderboard
-Dashboard.upload = Upload
+Layout.home = Home
+Layout.players = Players
+Layout.player = Player
+Layout.leaderboard = Leaderboard
+Layout.upload = Upload
 
-export default Dashboard
+export default Layout

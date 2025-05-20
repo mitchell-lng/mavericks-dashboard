@@ -1,11 +1,11 @@
 import './upload.css'
 
-import { useData } from '../../../../hooks/DataContext'
+import { useData } from '../../../hooks/DataContext'
 import { useState } from 'react'
 
-import type { FullPlayerData } from '../../../../utils/types'
+import type { FullPlayerData } from '../../../utils/types'
 
-import { Card } from '../../components'
+import { Card } from '../components'
 import { TextField } from '@mui/material'
 
 import { DateField } from '@mui/x-date-pickers/DateField'

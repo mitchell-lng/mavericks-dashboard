@@ -2,11 +2,11 @@
 .player-profile {
     display: grid;
     grid-template-areas:
-        "profile-card bio-card"
-        "gamelogs strengths-weaknesses"
-        "radar bookmark";
-    grid-template-columns: 2fr 1fr;
-    grid-template-rows: auto 1fr 1fr;
+        "profile-card profile-card bio-card"
+        "season-stats gamelogs gamelogs"
+        ". . .";
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto 1fr auto;
     gap: 2rem;
 }
 
@@ -18,12 +18,11 @@
     grid-area: bio-card;
 }
 
-.player-profile > .strengths-weaknesses-card {
-    grid-area: strengths-weaknesses;
+.player-profile > .season-stats-card {
+    grid-area: season-stats;
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    padding: 1rem;
     flex-wrap: wrap;
 }
 
@@ -60,19 +59,6 @@
     gap: 1rem;
     font-size: 1.5rem;
     font-weight: 600;
-}
-
-.player-name .position {
-    font-size: 1.25rem;
-    color: #6b7280;
-}
-
-.player-name .jersey {
-    font-size: 1rem;
-    color: #6b7280;
-    padding: 0.25rem 0.5rem;
-    border: 1px solid #d1d5db;
-    border-radius: 0.375rem;
 }
 
 .tags {
@@ -138,12 +124,12 @@
 }
 
 /* Bio Card */
-.bio-card h3 {
+.player-info-card h3 {
     font-size: 1rem;
     margin-bottom: 0.5rem;
 }
 
-.bio-info {
+.player-info-card {
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -151,7 +137,7 @@
     color: #374151;
 }
 
-.bio-info div {
+.player-info-card div {
     display: flex;
     justify-content: space-between;
 }
@@ -167,7 +153,7 @@ button {
             "profile-card"
             "bio-card"
             "gamelogs"
-            "strengths-weaknesses"
+            "season-states"
             "radar ";
         grid-template-columns: 100%;
         grid-template-rows: auto 1fr 1fr 1fr 1fr;

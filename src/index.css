@@ -135,7 +135,6 @@ a:hover {
 }
 
 /* Icon-only Button */
-
 .button-icon {
     background-color: transparent;
     color: var(--color-text);
@@ -175,7 +174,6 @@ a:hover {
 }
 
 /* Success Secondary */
-
 .button-success.button-secondary {
     background-color: transparent;
     color: var(--color-success);
@@ -188,7 +186,6 @@ a:hover {
 }
 
 /* Error Button */
-
 .button-error {
     background-color: var(--color-error);
     color: var(--button-color);
@@ -204,7 +201,6 @@ a:hover {
 }
 
 /* Error Secondary */
-
 .button-error.button-secondary {
     background-color: transparent;
     color: var(--color-error);
@@ -272,6 +268,13 @@ a:hover {
 @keyframes fadeOut {
     to {
         opacity: 0;
+    }
+}
+
+/* Print */
+@media print {
+    .no-print {
+        display: none;
     }
 }
 

@@ -1,0 +1,21 @@
+.readme-link {
+  color: #1976d2;
+  text-decoration: none;
+}
+
+.readme-link:hover {
+  text-decoration: underline;
+}
+
+.bookmarks-cards-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto 1fr auto;
+  gap: 1rem;
+  margin-top: 10px;
+}
+
+.dashboard-home-cards-button {
+  margin-top: auto;
+  justify-content: center;
+}

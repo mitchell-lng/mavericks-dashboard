@@ -6,9 +6,9 @@ import { NavLink } from 'react-router'
 
 import { useEffect, useState } from 'react'
 
-import type { FullPlayerData } from '../../../../utils/types'
+import type { FullPlayerData } from '../../../utils/types'
 
-import { useData } from '../../../../hooks/DataContext'
+import { useData } from '../../../hooks/DataContext'
 
 const Players = () => {
   const { data, addBookmark, removeBookmark } = useData();

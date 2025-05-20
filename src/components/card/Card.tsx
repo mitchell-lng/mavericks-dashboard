@@ -2,6 +2,8 @@ import './card.css'
 
 import type { ReactNode } from 'react';
 
+import FourOFour from '../../assets/Mavericks 404 Slam Dunk.jpg'
+
 const Card = ({ children, className }: { children: ReactNode, className?: string }) => {
   return (
     <div className={`card ${className}`}>{children}</div>
@@ -9,6 +11,10 @@ const Card = ({ children, className }: { children: ReactNode, className?: string
 }
 
 const CardImage = ({ src, alt }: { src: string, alt: string }) => {
+  if (!src) {
+    return <img className='card-image no-print' src={FourOFour} alt={alt} />
+  }
+
   return (
     <img className='card-image' src={src} alt={alt} />
   )

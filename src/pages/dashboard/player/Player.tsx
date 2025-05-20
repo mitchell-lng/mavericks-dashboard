@@ -1,25 +1,26 @@
 import './player.css'
 
-import { Card } from '../../components'
+import { Card } from '../components'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { faUserPlus, faPrint } from '@fortawesome/free-solid-svg-icons'
+import { faUserPlus, faPrint, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { faFlag } from '@fortawesome/free-solid-svg-icons'
-import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons'
 
 import { BarChart } from '@mui/x-charts/BarChart';
 
-import type { FullPlayerData } from '../../../../utils/types'
+import type { FullPlayerData } from '../../../utils/types'
 
-import { useData } from '../../../../hooks/DataContext'
+import { useData } from '../../../hooks/DataContext'
 
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import { useEffect, useState } from 'react'
 
 const Player = () => {
   const location = useLocation();
+
+  const navigate = useNavigate();
 
   const {data, addBookmark, removeBookmark} = useData();
 
@@ -33,7 +34,14 @@ const Player = () => {
   }, [data.bookmarks, playerId]);
 
   if (!playerData) {
-    return <div>Player not found</div>;
+    return (
+      <div>
+        <p>Player not found</p>
+        <button className='button' onClick={() => navigate(-1)}>
+          <FontAwesomeIcon icon={faArrowLeft} /> Go Back
+        </button>
+      </div>
+    );
   }
 
   const { playerBio, measurements, scoutRanking, gameLogs, seasonLog } = playerData;
@@ -69,6 +77,9 @@ const Player = () => {
     <div className="dashboard-subpage-container">
       <header className="dashboard-subpage-header">
         <h1>Player Data</h1>
+        <div className='dashboard-subpage-header-actions'>
+          <button onClick={() => navigate(-1)} className="button"><FontAwesomeIcon icon={faArrowLeft} /> Back</button>
+        </div>
       </header>
       <main className="dashboard-subpage-content player-profile">
         <Card className="profile-card">
@@ -76,8 +87,6 @@ const Player = () => {
           <Card.Header>
             <div className="player-name">
               <h1 className="name">{playerBio.name}</h1>
-              <span className="position">SG</span>
-              <span className="jersey">#13</span>
             </div>
           </Card.Header>
           <Card.Body>
@@ -120,7 +129,7 @@ const Player = () => {
           <Card.Header>
             <h2>Player Bio</h2>
           </Card.Header>
-          <Card.Body className='bio-info'>
+          <Card.Body className='player-info-card bio-card'>
             <div><span>Age</span><span>{new Date().getFullYear() - new Date(playerBio.birthDate).getFullYear()}</span></div>
             <div><span>Height</span><span>{`${Math.floor(playerBio.height / 12)}'${playerBio.height % 12}"`}</span></div>
             <div><span>Weight</span><span>{measurements?.weight}</span></div>
@@ -135,7 +144,6 @@ const Player = () => {
             <h2>Game-by-Game Scoring</h2>
           </Card.Header>
           <Card.Body>
-            <div className="chart-placeholder">
             <BarChart
               xAxis={[{ data: gameLogs.map(log => new Date(log.date).toLocaleDateString()).reverse() }]}
               series={[
@@ -145,33 +153,20 @@ const Player = () => {
               ]}
               height={300}
             />
-            </div>
           </Card.Body>
         </Card>
-        <Card className="section-card strengths-weaknesses-card">
+        <Card className="section-card season-stats-card">
           <Card.Header>
-            <h2>Strengths & Weaknesses</h2>
+            <h2>Season Stats</h2>
           </Card.Header>
-          <Card.Body>
-            <div className="strengths-weaknesses">
-              <div className="strengths">
-                <h4><FontAwesomeIcon icon={faArrowUp} /> Strengths</h4>
-                <ul>
-                  <li>Explosive first step and quick acceleration</li>
-                  <li>Reliable mid-range shooter</li>
-                  <li>Excellent court vision for position</li>
-                  <li>High basketball IQ</li>
-                </ul>
-              </div>
-              <div className="weaknesses">
-                <h4><FontAwesomeIcon icon={faArrowDown} /> Weaknesses</h4>
-                <ul>
-                  <li>Needs to improve 3PT consistency</li>
-                  <li>Occasional lapses on defense</li>
-                  <li>Tends to over-dribble in traffic</li>
-                </ul>
-              </div>
-            </div>
+          <Card.Body className='player-info-card'>
+            <div><span>Games Played</span><span>{seasonLog?.GP ?? 'N/A'}</span></div>
+            <div><span>Points Per Game</span><span>{seasonLog?.PTS?.toFixed(1) ?? 'N/A'}</span></div>
+            <div><span>Rebounds Per Game</span><span>{seasonLog?.TRB?.toFixed(1) ?? 'N/A'}</span></div>
+            <div><span>Assists Per Game</span><span>{seasonLog?.AST?.toFixed(1) ?? 'N/A'}</span></div>
+            <div><span>Field Goal %</span><span>{seasonLog?.["FG%"] !== undefined ? `${(seasonLog["FG%"]).toFixed(1)}%` : 'N/A'}</span></div>
+            <div><span>3PT %</span><span>{seasonLog?.["3P%"] !== undefined ? `${(seasonLog["3P%"]).toFixed(1)}%` : 'N/A'}</span></div>
+            <div><span>Free Throw %</span><span>{seasonLog?.FTP !== undefined ? `${(seasonLog?.FTP).toFixed(1)}%` : 'N/A'}</span></div>
           </Card.Body>
         </Card>
       </main>

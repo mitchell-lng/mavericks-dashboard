@@ -1,17 +1,17 @@
 import './leaderboard.css'
 
-import { Card } from '../../components'
+import { Card } from '../components'
 
 import { useEffect, useState } from 'react'
 
-import { useData } from '../../../../hooks/DataContext'
+import { useData } from '../../../hooks/DataContext'
 
 import { Switch, FormGroup, FormControlLabel, Tooltip, Accordion, AccordionSummary, AccordionDetails } from '@mui/material'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
-import type { DataFieldMinimum } from '../../../../utils/types'
+import type { DataFieldMinimum } from '../../../utils/types'
 
 const Leaderboard = () => {
   const { data, toggleLeaderboardField } = useData();
@@ -35,6 +35,7 @@ const Leaderboard = () => {
           playerId: player.id,
           name: player.playerBio.name,
           value: typeof value === 'number' ? value : null,
+          unit: (data.leaderboardFields?.[field]?.fields?.[subfield] as { unit?: string })?.unit,
         };
       })
       .filter((p: any) => typeof p.value === 'number');
@@ -120,7 +121,7 @@ const Leaderboard = () => {
                             <tr>
                               <th>Rank</th>
                               <th>Player</th>
-                              <th>Value</th>
+                              <th>{(subfield as { unit?: string }).unit}</th>
                             </tr>
                           </thead>
                           <tbody>
