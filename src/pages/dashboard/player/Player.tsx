@@ -4,7 +4,7 @@ import { Card } from '../../../components'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { faUserPlus, faPrint, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { faUserPlus, faPrint, faArrowLeft, faEdit } from '@fortawesome/free-solid-svg-icons'
 import { faFlag } from '@fortawesome/free-solid-svg-icons'
 
 import { BarChart } from '@mui/x-charts/BarChart';
@@ -169,6 +169,9 @@ const Player = () => {
               </button>
               <button className="button button-secondary" onClick={handlePrint}>
                 <FontAwesomeIcon icon={faPrint} /> Print-friendly
+              </button>
+              <button className='button button-secondary' onClick={() => navigate(`edit`)}>
+                <FontAwesomeIcon icon={faEdit} /> Edit Player
               </button>
             </div>
           </Card.Footer>

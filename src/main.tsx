@@ -41,6 +41,7 @@ const router = createBrowserRouter([
             { path: 'players', element: <Dashboard.players /> },
             { path: 'upload', element: <Dashboard.upload /> },
             { path: 'player/:id', element: <Dashboard.player /> },
+            { path: 'player/:id/edit', element: <Dashboard.playerEdit /> },
             { path: 'compare', element: <Dashboard.compare /> }
           ],
 

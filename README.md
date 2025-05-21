@@ -107,7 +107,7 @@ The app leverages React's useContext API to share data and functions across comp
     * Immediate availability across components
     * Easy access to player data for rendering and analysis
 
-### Example Usage
+### ✍️ Example Usage
 
 This example shows how both data and toasts from the useContext can be used.
 
@@ -141,7 +141,7 @@ export default const Element = () => {
 }
 ```
 
-## Data Management
+## 📊 Data Management
 The app uses a mock data file (`intern_project_data.json`) to simulate player data. The data is structured as an array of player objects, each containing various attributes such as `playerBio`, `scoutRankings`, and `measurements`. The app fetches this data using a custom API function, which can be replaced with real API calls in a production environment.
 
 In the future the api.ts file will be replaced with a real API. The current implementation uses a mock data file (`intern_project_data.json`) to simulate player data. The data is structured as an array of player objects, each containing various attributes such as `playerBio`, `scoutRankings`, and `measurements`. The app fetches this data using a custom API function, which can be replaced with real API calls in a production environment.
@@ -236,9 +236,9 @@ For more details on the data structure please refer to the `fieldData.ts` file. 
 
 This file is also used to generate the form for the leaderboard pages.
 
-## Usage
+## 📖 Usage
 
-### How to Run the Project
+### 🏃 How to Run the Project
 1. Clone the repository:
    ```bash
    git clone <repository-url>
@@ -256,7 +256,7 @@ This file is also used to generate the form for the leaderboard pages.
 5. Login using the default credentials (listed in the Authentication section).
 6. Explore the app, add players, and view player profiles.
 
-### How to Build the Project
+### 👷 How to Build the Project
 1. Clone the repository:
    ```bash
    git clone <repository-url>
@@ -291,7 +291,7 @@ This file is also used to generate the form for the leaderboard pages.
 3. Required fields are marked (e.g., first name, last name, birthdate).
 4. Click Submit
 
-### How to add a Scouting Report
+### 📝 How to add a Scouting Report
 
 1. Navigate to the player's individual page.
 2. Fill out the form sections.
@@ -302,12 +302,6 @@ This file is also used to generate the form for the leaderboard pages.
 
 ## 🚧 Roadmap / TODOs
 
-* Player Page
-  * Add player game logs
-  * Add player season logs
-  * Add player measurements
-  * Add player combine stats
-  * Add player shooting charts
 * Update / Verify responsive design
   * dashboard
     * home

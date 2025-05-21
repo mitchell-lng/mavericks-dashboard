@@ -32,7 +32,7 @@
 
     /* Borders */
     --border-color: var(--color-gray);
-    --border-radius: 8px;
+    --border-radius: 5px;
     --border-default: 1px solid var(--border-color);
 
     /* Buttons */
@@ -161,7 +161,6 @@ a:hover {
 
 .button-success {
     background-color: var(--color-success);
-    border-radius: 5px;
     padding: 10px 20px;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -191,8 +190,6 @@ a:hover {
 
 /* Error Button */
 .button-error {
-    
-    border-radius: 5px;
     padding: 10px 20px;
     cursor: pointer;
     transition: background-color 0.3s ease;
