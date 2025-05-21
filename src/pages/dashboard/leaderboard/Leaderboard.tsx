@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 import type { DataFieldMinimum } from '../../../utils/types'
+import { NavLink } from 'react-router'
 
 const Leaderboard = () => {
   const { data, toggleLeaderboardField } = useData();
@@ -32,7 +33,7 @@ const Leaderboard = () => {
       .map((player: any) => {
         const value = player[field]?.[subfield];
         return {
-          playerId: player.id,
+          playerId: player.playerBio.playerId,
           name: player.playerBio.name,
           value: typeof value === 'number' ? value : null,
           unit: (data.leaderboardFields?.[field]?.fields?.[subfield] as { unit?: string })?.unit,
@@ -128,7 +129,7 @@ const Leaderboard = () => {
                             {players.map((player: any, index: number) => (
                               <tr key={player.playerId}>
                                 <td>#{index + 1}</td>
-                                <td>{player.name}</td>
+                                <td><NavLink to={`/dashboard/player/${player.playerId}`}>{player.name}</NavLink></td>
                                 <td>{player.value ?? 0}</td>
                               </tr>
                             ))}

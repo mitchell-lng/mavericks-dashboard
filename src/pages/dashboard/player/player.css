@@ -2,9 +2,9 @@
 .player-profile {
     display: grid;
     grid-template-areas:
-        "profile-card profile-card bio-card"
-        "season-stats gamelogs gamelogs"
-        ". . .";
+            "profile-card profile-card bio-card"
+            "season-stats gamelogs gamelogs"
+            "scouting-reports scouting-reports add-scouting-report";
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: auto 1fr auto;
     gap: 2rem;
@@ -36,6 +36,13 @@
 
 .player-profile > .bookmark-card {
     grid-area: bookmark;
+}
+
+.player-profile > .scouting-reports-card {
+    grid-area: scouting-reports;
+}
+.player-profile > .add-scouting-report-card {
+    grid-area: add-scouting-report;
 }
 
 /* Main Content Layout */
@@ -152,9 +159,10 @@ button {
         grid-template-areas:
             "profile-card"
             "bio-card"
+            "season-stats"
             "gamelogs"
-            "season-states"
-            "radar ";
+            "scouting-reports"
+            "add-scouting-report";
         grid-template-columns: 100%;
         grid-template-rows: auto 1fr 1fr 1fr 1fr;
     }

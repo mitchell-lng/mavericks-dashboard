@@ -12,6 +12,7 @@ import { TextField } from '@mui/material'
 import { DateField } from '@mui/x-date-pickers/DateField'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
 
 const defaultData = {
   playerBio: {
@@ -57,6 +58,11 @@ const defaultData = {
   },
   gameLogs: [],
   playerId: 0,
+  newScoutReport: {
+    report: "",
+    date: new Date().toISOString().split('T')[0], // Default to today's date
+    scoutName: "",
+  },
 }
 
 const Upload = () => {
@@ -67,6 +73,8 @@ const Upload = () => {
   const [scoutRanking, setScoutRanking] = useState(defaultData.scoutRanking);
 
   const [measurements, setMeasurements] = useState(defaultData.measurements);
+
+  const [newScoutReport, setNewScoutReport] = useState(defaultData.newScoutReport);
 
   const handleSubmit = () => {
     const playerId = (data.players ?? []).length + 1; // Assuming playerId is just the length of the players array + 1
@@ -95,12 +103,20 @@ const Upload = () => {
       playerId,
     };
 
+    const newScoutReportData = {
+      playerId,
+      report: newScoutReport.report,
+      date: newScoutReport.date,
+      scoutName: newScoutReport.scoutName,
+    };
+
     const newPlayerData: FullPlayerData = {
       playerBio: newPlayerBio,
       scoutRanking: newScoutRanking,
       measurements: newMeasurements,
       gameLogs: [],
       playerId,
+      scoutingReports: [newScoutReportData],
     };
 
     // Assuming you have a function to add the new player data to your context or state
@@ -110,6 +126,7 @@ const Upload = () => {
     setPlayerBio(defaultData.playerBio);
     setScoutRanking(defaultData.scoutRanking);
     setMeasurements(defaultData.measurements);
+    setNewScoutReport(defaultData.newScoutReport);
   };
 
   const handleChange = (e: any, sectionSetter: any) => {
@@ -124,6 +141,7 @@ const Upload = () => {
       </header>
       <main className="dashboard-subpage-content">
         <Card className="form-section">
+          <Card.Image src={playerBio.photoUrl} alt={`Photo of ${playerBio.firstName} ${playerBio.lastName}`} />
           <Card.Header>
             <h2>Player Bio</h2>
           </Card.Header>
@@ -157,13 +175,45 @@ const Upload = () => {
             <h2>Scout Rankings</h2>
           </Card.Header>
           <Card.Body className="form-grid">
-            <div className="form-grid">
-              <TextField label="ESPN Rank" name="espnRank" type="number" value={scoutRanking.espnRank} onChange={(e) => handleChange(e, setScoutRanking)}  />
-              <TextField label="Sam Vecenie Rank" name="samVecenieRank" type="number" value={scoutRanking.samVecenieRank} onChange={(e) => handleChange(e, setScoutRanking)}  />
-              <TextField label="Kevin O'Connor Rank" name="kevinOConnorRank" type="number" value={scoutRanking.kevinOConnorRank} onChange={(e) => handleChange(e, setScoutRanking)}  />
-              <TextField label="Kyle Boone Rank" name="kyleBooneRank" type="number" value={scoutRanking.kyleBooneRank} onChange={(e) => handleChange(e, setScoutRanking)}  />
-              <TextField label="Gary Parrish Rank" name="garyParrishRank" type="number" value={scoutRanking.garyParrishRank} onChange={(e) => handleChange(e, setScoutRanking)}  />
-            </div>
+            {Object.entries(scoutRanking).map(([key, value]) => (
+              <TextField
+                key={key}
+                label={key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase()).replace(/ Rank$/, " Rank")}
+                name={key}
+                type="number"
+                value={value}
+                onChange={(e) => handleChange(e, setScoutRanking)}
+              />
+            ))}
+          </Card.Body>
+        </Card>
+
+        <Card className="form-section">
+          <Card.Header>
+            <h2>Add Scouting Report</h2>
+          </Card.Header>
+          <Card.Body>
+            <TextField
+              label="Scout Name"
+              name="scoutName"
+              type="text"
+              onChange={(e) => handleChange(e, setNewScoutReport)}
+            />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DateField
+                value={dayjs()}
+                name="date"
+                onChange={(e) => handleChange(e, setNewScoutReport)}
+              />
+            </LocalizationProvider>
+            <TextField
+              label="Report"
+              name="report"
+              type="text"
+              onChange={(e) => handleChange(e, setNewScoutReport)}
+              multiline
+              rows={4}
+            />
           </Card.Body>
         </Card>
 

@@ -9,25 +9,40 @@ import { faFlag } from '@fortawesome/free-solid-svg-icons'
 
 import { BarChart } from '@mui/x-charts/BarChart';
 
-import type { FullPlayerData } from '../../../utils/types'
+import type { FullPlayerData, ScoutingReport } from '../../../utils/types'
 
 import { useData } from '../../../hooks/DataContext'
 
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { useEffect, useState } from 'react'
+import { TextField } from '@mui/material'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 const Player = () => {
   const location = useLocation();
 
   const navigate = useNavigate();
 
-  const {data, addBookmark, removeBookmark} = useData();
+  const {data, addBookmark, removeBookmark, updatePlayerData} = useData();
 
   const playerId = location.pathname.split('/').pop();
   const playerData = data.players?.find((player) => player.playerId === Number(playerId));
 
   const [isBookmarked, setIsBookmarked] = useState(false);
+
+  const [playerScoutingReports, setPlayerScoutingReports] = useState<ScoutingReport[]>([]);
+  const [newScoutReport, setNewScoutReport] = useState<ScoutingReport>({
+    playerId: Number(playerId),
+    scoutName: '',
+    date: new Date().toISOString().split('T')[0],
+    report: ''
+  });
+
+  useEffect(() => {
+    setPlayerScoutingReports(playerData?.scoutingReports ?? []);
+  }, [playerData, data.players?.some((player) => player.playerId === Number(playerId))]);
 
   useEffect(() => {
     setIsBookmarked(data.bookmarks?.some((bookmark) => bookmark.playerId === Number(playerId)) || false);
@@ -44,7 +59,7 @@ const Player = () => {
     );
   }
 
-  const { playerBio, measurements, scoutRanking, gameLogs, seasonLog } = playerData;
+  const { playerBio, measurements, scoutRanking, gameLogs, seasonLog, scoutingReports } = playerData;
 
   const ranking = Object.fromEntries(
     Object.entries(scoutRanking ?? {})
@@ -71,6 +86,40 @@ const Player = () => {
 
   const handlePrint = () => {
     window.print(); // Implementing print logic
+  }
+
+  const handleAddReport = () => {
+    if (newScoutReport.scoutName && newScoutReport.report) {
+      const newReport: ScoutingReport = {
+        ...newScoutReport
+      };
+
+      // Assuming you have a function to add the report to the player's data
+      const updatedPlayerData = {
+        ...playerData,
+        scoutingReports: [...(scoutingReports ?? []), newReport]
+      };
+
+      // Update the player data in the context
+      updatePlayerData(updatedPlayerData);
+
+      // Reset the new scout report state
+      setNewScoutReport({
+        playerId: Number(playerId),
+        scoutName: '',
+        date: new Date().toISOString().split('T')[0],
+        report: ''
+      });
+    } else {
+      alert('Please fill in all fields');
+    }
+  }
+
+  const handleFieldChange = (field: string, value: string) => {
+    setNewScoutReport((prev) => ({
+      ...prev,
+      [field]: value
+    }));
   }
 
   return (
@@ -167,6 +216,69 @@ const Player = () => {
             <div><span>Field Goal %</span><span>{seasonLog?.["FG%"] !== undefined ? `${(seasonLog["FG%"]).toFixed(1)}%` : 'N/A'}</span></div>
             <div><span>3PT %</span><span>{seasonLog?.["3P%"] !== undefined ? `${(seasonLog["3P%"]).toFixed(1)}%` : 'N/A'}</span></div>
             <div><span>Free Throw %</span><span>{seasonLog?.FTP !== undefined ? `${(seasonLog?.FTP).toFixed(1)}%` : 'N/A'}</span></div>
+          </Card.Body>
+        </Card>
+        <Card className="section-card scouting-reports-card">
+          <Card.Header>
+            <h2>Scouting Reports</h2>
+          </Card.Header>
+          <Card.Body className='player-info-card'>
+            <table className="scouting-reports-table">
+              <thead>
+              <tr>
+                <th>Date</th>
+                <th>Scout Name</th>
+                <th>Report</th>
+              </tr>
+              </thead>
+              <tbody>
+                {(playerScoutingReports ?? [])
+                .slice()
+                .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                .map((report, idx) => (
+                  <tr key={report.date + report.scoutName + idx}>
+                  <td>{report.date}</td>
+                  <td>{report.scoutName}</td>
+                  <td>{report.report}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </Card.Body>
+        </Card>
+        <Card className='section-card add-scouting-report-card no-print'>
+          <Card.Header>
+            <h2>Add Scouting Report</h2>
+          </Card.Header>
+          <Card.Body>
+            <TextField 
+              label="Scout Name" 
+              variant="outlined" 
+              fullWidth 
+              margin="normal" 
+              value={newScoutReport.scoutName} 
+              onChange={(e) => handleFieldChange('scoutName', e.target.value)} />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <TextField
+                label="Date"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                type="date"
+                value={newScoutReport.date}
+                onChange={(e) => handleFieldChange('date', e.target.value)}
+              />
+            </LocalizationProvider>
+            <TextField 
+              label="Report" 
+              variant="outlined" 
+              fullWidth 
+              margin="normal" 
+              multiline
+              rows={4}
+              value={newScoutReport.report} 
+              onChange={(e) => handleFieldChange('report', e.target.value)} />
+            <button onClick={handleAddReport} className="button button-success">Add Report</button>
           </Card.Body>
         </Card>
       </main>

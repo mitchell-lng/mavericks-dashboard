@@ -46,6 +46,7 @@ interface DataContextType {
   removePlayer: (playerId: number) => void;
   addPlayer: (playerData: FullPlayerData) => void;
   toggleLeaderboardField: (fieldData: DataFieldMinimum) => void;
+  updatePlayerData: (playerData: FullPlayerData) => void;
 }
 
 const DataContext = createContext<DataContextType>({ 
@@ -58,6 +59,7 @@ const DataContext = createContext<DataContextType>({
   addPlayer: () => void 0,
   removePlayer: () => void 0,
   toggleLeaderboardField: () => void 0,
+  updatePlayerData: () => void 0,
 });
 
 export const DataProvider = ({ children } : { children: React.ReactNode }) => {
@@ -168,8 +170,28 @@ export const DataProvider = ({ children } : { children: React.ReactNode }) => {
     });
   };
 
+  const updatePlayerData = (playerData: FullPlayerData) => {
+    setData((prevData) => ({
+      ...prevData,
+      players: prevData.players?.map((player) =>
+        player.playerBio.playerId === playerData.playerBio.playerId ? playerData : player
+      ),
+    }));
+
+    if (data.bookmarks && data.bookmarks.some((bookmark) => bookmark.playerBio.playerId === playerData.playerBio.playerId)) {
+      setData((prevData) => ({
+        ...prevData,
+        bookmarks: prevData.bookmarks?.map((bookmark) =>
+          bookmark.playerBio.playerId === playerData.playerBio.playerId ? playerData : bookmark
+        ),
+      }));
+    }
+
+    addToast('Player data updated successfully', 'success');
+  };
+
   return (
-    <DataContext.Provider value={{ data, resetData, setPlayers, removePlayer, addBookmark, removeBookmark, addPlayer, addToast, toggleLeaderboardField }}>
+    <DataContext.Provider value={{ data, updatePlayerData, resetData, setPlayers, removePlayer, addBookmark, removeBookmark, addPlayer, addToast, toggleLeaderboardField }}>
       {children}
       {toast.show && (
         <div className={`toast ${toast.type}`}>

@@ -27,6 +27,13 @@ interface ScoutRanking {
   "Gary Parrish Rank": number | null;
 }
 
+interface ScoutingReport {
+  playerId: number;
+  report: string;
+  date: string; // ISO format e.g., "2025-04-05"
+  scoutName: string;
+}
+
 interface PlayerMeasurements {
   playerId: number;
   heightNoShoes?: number | null;  // in inches
@@ -123,6 +130,7 @@ interface FullPlayerData {
   seasonLog?: SeasonLog;
   scoutRanking?: ScoutRanking;
   measurements?: PlayerMeasurements;
+  scoutingReports?: ScoutingReport[];
 }
 
 interface FieldType {
@@ -160,5 +168,6 @@ export type {
   GameLog, 
   FullPlayerData, 
   FullPlayerDataFieldInfoType,
-  DataFieldMinimum
+  DataFieldMinimum,
+  ScoutingReport
 };
