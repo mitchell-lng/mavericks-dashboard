@@ -46,6 +46,14 @@
     .dashboard > aside {
         display: none;
     }
+
+    .dashboard > header {
+        display: none;
+    }
+
+    .dashboard > footer {
+        display: none;
+    }
 }
 
 /* Subpage css */

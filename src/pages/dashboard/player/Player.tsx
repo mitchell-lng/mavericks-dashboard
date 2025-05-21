@@ -130,7 +130,7 @@ const Player = () => {
           <button onClick={() => navigate(-1)} className="button"><FontAwesomeIcon icon={faArrowLeft} /> Back</button>
         </div>
       </header>
-      <main className="dashboard-subpage-content player-profile">
+      <main className="dashboard-subpage-content player-profile no-print">
         <Card className="profile-card">
           <Card.Image src={playerBio.photoUrl ?? ''} alt={`${playerBio.name}'s profile`} />
           <Card.Header>
@@ -162,7 +162,7 @@ const Player = () => {
             </div>
           </Card.Body>
           <Card.Footer>
-            <div className="player-actions">
+            <div className="player-actions no-print">
               <button className={`button ${isBookmarked ? 'button-error' : 'button-success'}`} onClick={handleBookmark}>
                 <FontAwesomeIcon icon={faUserPlus} />
                 { isBookmarked ? ' Remove Bookmark' : ' Add Bookmark'}
@@ -249,7 +249,7 @@ const Player = () => {
             </table>
           </Card.Body>
         </Card>
-        <Card className='section-card add-scouting-report-card no-print'>
+        <Card className='add-scouting-report-card'>
           <Card.Header>
             <h2>Add Scouting Report</h2>
           </Card.Header>
@@ -285,6 +285,137 @@ const Player = () => {
           </Card.Body>
         </Card>
       </main>
+      <article className="player-print-article only-print">
+        <section className="player-print-section only-print">
+          <table className="player-print-table" style={{ width: '100%', borderCollapse: 'collapse', margin: '2rem 0' }}>
+            <tbody>
+              <tr>
+                <td rowSpan={8} style={{ verticalAlign: 'top', padding: '1rem', border: '1px solid #ccc', width: 220 }}>
+                  <img
+                    src={playerBio.photoUrl ?? ''}
+                    alt={`${playerBio.name}'s profile`}
+                    style={{ width: 200, height: 200, objectFit: 'cover', borderRadius: 8, border: '1px solid #ccc' }}
+                  />
+                </td>
+                <th style={{ textAlign: 'left', padding: '0.5rem', border: '1px solid #ccc' }}>Name</th>
+                <td style={{ padding: '0.5rem', border: '1px solid #ccc' }}>{playerBio.name}</td>
+              </tr>
+              <tr>
+                <th style={{ textAlign: 'left', padding: '0.5rem', border: '1px solid #ccc' }}>Current Team</th>
+                <td style={{ padding: '0.5rem', border: '1px solid #ccc' }}>{playerBio.currentTeam}</td>
+              </tr>
+              <tr>
+                <th style={{ textAlign: 'left', padding: '0.5rem', border: '1px solid #ccc' }}>League</th>
+                <td style={{ padding: '0.5rem', border: '1px solid #ccc' }}>{playerBio.league}</td>
+              </tr>
+              <tr>
+                <th style={{ textAlign: 'left', padding: '0.5rem', border: '1px solid #ccc' }}>Home Country</th>
+                <td style={{ padding: '0.5rem', border: '1px solid #ccc' }}>{playerBio.homeCountry}</td>
+              </tr>
+              <tr>
+                <th style={{ textAlign: 'left', padding: '0.5rem', border: '1px solid #ccc' }}>Age</th>
+                <td style={{ padding: '0.5rem', border: '1px solid #ccc' }}>{new Date().getFullYear() - new Date(playerBio.birthDate).getFullYear()}</td>
+              </tr>
+              <tr>
+                <th style={{ textAlign: 'left', padding: '0.5rem', border: '1px solid #ccc' }}>Height</th>
+                <td style={{ padding: '0.5rem', border: '1px solid #ccc' }}>{`${Math.floor(playerBio.height / 12)}'${playerBio.height % 12}"`}</td>
+              </tr>
+              <tr>
+                <th style={{ textAlign: 'left', padding: '0.5rem', border: '1px solid #ccc' }}>Weight</th>
+                <td style={{ padding: '0.5rem', border: '1px solid #ccc' }}>{measurements?.weight}</td>
+              </tr>
+              <tr>
+                <th style={{ textAlign: 'left', padding: '0.5rem', border: '1px solid #ccc' }}>Birth Date</th>
+                <td style={{ padding: '0.5rem', border: '1px solid #ccc' }}>{new Date(playerBio.birthDate).toLocaleDateString()}</td>
+              </tr>
+              <tr>
+                <th style={{ textAlign: 'left', padding: '0.5rem', border: '1px solid #ccc' }}>Hometown</th>
+                <td colSpan={2} style={{ padding: '0.5rem', border: '1px solid #ccc' }}>{playerBio.homeTown}, {playerBio.homeState}</td>
+              </tr>
+              <tr>
+                <th style={{ textAlign: 'left', padding: '0.5rem', border: '1px solid #ccc' }}>High School</th>
+                <td colSpan={2} style={{ padding: '0.5rem', border: '1px solid #ccc' }}>{playerBio.highSchool}</td>
+              </tr>
+              <tr>
+                <th style={{ textAlign: 'left', padding: '0.5rem', border: '1px solid #ccc' }}>Nationality</th>
+                <td colSpan={2} style={{ padding: '0.5rem', border: '1px solid #ccc' }}>{playerBio.nationality}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3 style={{ marginTop: '2rem' }}>Scout Rankings</h3>
+          <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '2rem' }}>
+            <thead>
+              <tr>
+                {Object.keys(ranking).map((key) => (
+                  <th key={key} style={{ padding: '0.5rem', border: '1px solid #ccc' }}>{key}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {Object.values(ranking).map((value, idx) => (
+                  <td key={idx} style={{ padding: '0.5rem', border: '1px solid #ccc' }}>
+                    {(value == 0) || (value == undefined) ? 'N/A' : `#${value}`}
+                  </td>
+                ))}
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Season Stats</h3>
+          <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '2rem' }}>
+            <tbody>
+              <tr>
+                <th style={{ textAlign: 'left', padding: '0.5rem', border: '1px solid #ccc' }}>Games Played</th>
+                <td style={{ padding: '0.5rem', border: '1px solid #ccc' }}>{seasonLog?.GP ?? 'N/A'}</td>
+                <th style={{ textAlign: 'left', padding: '0.5rem', border: '1px solid #ccc' }}>Points Per Game</th>
+                <td style={{ padding: '0.5rem', border: '1px solid #ccc' }}>{seasonLog?.PTS?.toFixed(1) ?? 'N/A'}</td>
+              </tr>
+              <tr>
+                <th style={{ textAlign: 'left', padding: '0.5rem', border: '1px solid #ccc' }}>Rebounds Per Game</th>
+                <td style={{ padding: '0.5rem', border: '1px solid #ccc' }}>{seasonLog?.TRB?.toFixed(1) ?? 'N/A'}</td>
+                <th style={{ textAlign: 'left', padding: '0.5rem', border: '1px solid #ccc' }}>Assists Per Game</th>
+                <td style={{ padding: '0.5rem', border: '1px solid #ccc' }}>{seasonLog?.AST?.toFixed(1) ?? 'N/A'}</td>
+              </tr>
+              <tr>
+                <th style={{ textAlign: 'left', padding: '0.5rem', border: '1px solid #ccc' }}>Field Goal %</th>
+                <td style={{ padding: '0.5rem', border: '1px solid #ccc' }}>{seasonLog?.["FG%"] !== undefined ? `${(seasonLog["FG%"]).toFixed(1)}%` : 'N/A'}</td>
+                <th style={{ textAlign: 'left', padding: '0.5rem', border: '1px solid #ccc' }}>3PT %</th>
+                <td style={{ padding: '0.5rem', border: '1px solid #ccc' }}>{seasonLog?.["3P%"] !== undefined ? `${(seasonLog["3P%"]).toFixed(1)}%` : 'N/A'}</td>
+              </tr>
+              <tr>
+                <th style={{ textAlign: 'left', padding: '0.5rem', border: '1px solid #ccc' }}>Free Throw %</th>
+                <td style={{ padding: '0.5rem', border: '1px solid #ccc' }}>{seasonLog?.FTP !== undefined ? `${(seasonLog?.FTP).toFixed(1)}%` : 'N/A'}</td>
+                <td colSpan={2}></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Scouting Reports</h3>
+          <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '2rem' }}>
+            <thead>
+              <tr>
+                <th style={{ padding: '0.5rem', border: '1px solid #ccc' }}>Date</th>
+                <th style={{ padding: '0.5rem', border: '1px solid #ccc' }}>Scout Name</th>
+                <th style={{ padding: '0.5rem', border: '1px solid #ccc' }}>Report</th>
+              </tr>
+            </thead>
+            <tbody>
+              {(playerScoutingReports ?? [])
+                .slice()
+                .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                .map((report, idx) => (
+                  <tr key={report.date + report.scoutName + idx}>
+                    <td style={{ padding: '0.5rem', border: '1px solid #ccc' }}>{report.date ?? 'N/A'}</td>
+                    <td style={{ padding: '0.5rem', border: '1px solid #ccc' }}>{report.scoutName}</td>
+                    <td style={{ padding: '0.5rem', border: '1px solid #ccc' }}>{report.report}</td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </section>
+      </article>
     </div>
   )
 }

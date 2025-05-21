@@ -49,7 +49,7 @@ const Layout = ({ children } : { children: React.ReactNode }) => {
           </div>
         ) : children}
       </main>
-      <footer className="dashboard-footer footer">
+      <footer className="dashboard-footer footer no-print">
         <p>Contact: <a href="mailto:help@mywebpage.com">help@mywebpage.com</a></p>
 
         <p>©{new Date().getFullYear()}</p>

@@ -9,7 +9,7 @@ import { useData } from '../../../hooks/DataContext'
 import { Switch, FormGroup, FormControlLabel, Tooltip, Accordion, AccordionSummary, AccordionDetails } from '@mui/material'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faPrint } from '@fortawesome/free-solid-svg-icons'
 
 import type { DataFieldMinimum } from '../../../utils/types'
 import { NavLink } from 'react-router'
@@ -68,8 +68,14 @@ const Leaderboard = () => {
     <div className="dashboard-subpage-container">
       <header className="dashboard-subpage-header">
         <h1>Leaderboard</h1>
+        <div className="dashboard-subpage-header-actions">
+          <button className="button-secondary button" onClick={() => window.print()}>
+            <FontAwesomeIcon icon={faPrint} />
+            Print
+          </button>
+        </div>
       </header>
-      <main className="dashboard-subpage-content leaderboard-main">
+      <main className="dashboard-subpage-content leaderboard-main no-print">
         <div className='leaderboard-switches'>
         {fullPlayerDataFields &&
           Object.entries(fullPlayerDataFields).map(([key, field], index) => (
@@ -143,6 +149,41 @@ const Leaderboard = () => {
           }
         </div>
       </main>
+      <article className="only-print">
+        {fullPlayerDataFields &&
+          Object.entries(fullPlayerDataFields).flatMap(([key, field]) =>
+            Object.entries(field.fields ?? {})
+              .filter(([, subfield]) => (subfield as { checked?: boolean }).checked)
+              .map(([subKey, subfield], _) => {
+                const players = calculateLeaderboard(key, subKey, (subfield as { reverse?: boolean }).reverse ?? false);
+
+                return (
+                  <section key={`print-${key}-${subKey}`} style={{ marginBottom: '2rem' }}>
+                    <h2 style={{ marginBottom: '0.5rem' }}>{(subfield as { label: string }).label}</h2>
+                    <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '1rem' }}>
+                      <thead>
+                        <tr>
+                          <th style={{ border: '1px solid #ccc', padding: '0.5em' }}>Rank</th>
+                          <th style={{ border: '1px solid #ccc', padding: '0.5em' }}>Player</th>
+                          <th style={{ border: '1px solid #ccc', padding: '0.5em' }}>{(subfield as { unit?: string }).unit}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {players.map((player: any, index: number) => (
+                          <tr key={player.playerId}>
+                            <td style={{ border: '1px solid #ccc', padding: '0.5em' }}>#{index + 1}</td>
+                            <td style={{ border: '1px solid #ccc', padding: '0.5em' }}>{player.name}</td>
+                            <td style={{ border: '1px solid #ccc', padding: '0.5em' }}>{player.value ?? 0}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </section>
+                );
+              })
+          )
+        }
+      </article>
     </div>
   )
 }

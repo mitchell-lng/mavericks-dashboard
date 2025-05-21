@@ -278,10 +278,18 @@ a:hover {
     }
 }
 
+.only-print {
+    display: none;
+}
+
 /* Print */
 @media print {
     .no-print {
-        display: none;
+        display: none !important;
+    }
+
+    .only-print {
+        display: block !important;
     }
 }
 
