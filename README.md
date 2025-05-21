@@ -308,16 +308,15 @@ This file is also used to generate the form for the leaderboard pages.
   * Add player measurements
   * Add player combine stats
   * Add player shooting charts
-* Player Compare
-  * Add data to player compare
-  * Update player compare to look better
 * Update / Verify responsive design
-  * dashboard home
-  * players
-  * player
-  * leaderboard
-  * upload data
-  * compare player page
+  * dashboard
+    * home
+    * players
+    * player
+    * leaderboard
+    * upload
+    * compare
+  * login
 
 ## 📃 License
 
