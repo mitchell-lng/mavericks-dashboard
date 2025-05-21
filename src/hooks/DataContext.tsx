@@ -88,6 +88,16 @@ export const DataProvider = ({ children } : { children: React.ReactNode }) => {
 
   // Function to add a player
   const addPlayer = (playerData: FullPlayerData) => {
+    // Check to see if player already exists
+    const alreadyExists = data.players?.some(
+      (player) => player.playerBio.playerId === playerData.playerBio.playerId
+    );
+    if (alreadyExists) {
+      addToast('Player already exists', 'error');
+      return;
+    }
+
+    // Add player to the players array
     setData((prevData) => ({
       ...prevData,
       players: [...(prevData.players || []), playerData],
@@ -98,6 +108,7 @@ export const DataProvider = ({ children } : { children: React.ReactNode }) => {
 
   // Function to set players data
   const setPlayers = (players: FullPlayerData[]) => {
+    // Check to see if player already exists
     setData((prevData) => ({
       ...prevData,
       players: players,

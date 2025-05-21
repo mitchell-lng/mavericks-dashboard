@@ -2,7 +2,7 @@ import './card.css'
 
 import type { ReactNode } from 'react';
 
-import FourOFour from '../../assets/Mavericks 404 Slam Dunk.jpg'
+import FourOFour from '../../assets/images/Mavericks 404 Slam Dunk.jpg'
 
 const Card = ({ children, className }: { children: ReactNode, className?: string }) => {
   return (

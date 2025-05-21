@@ -4,7 +4,7 @@ import './index.css'
 
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
 
-import { Dashboard, Settings, Oops, Login, Register } from './pages'
+import { Dashboard, Settings, Oops, Login } from './pages'
 
 import { AuthProvider } from './hooks/Auth'
 import { ProtectedRoute } from './components'
@@ -24,7 +24,6 @@ const router = createBrowserRouter([
     errorElement: <Oops />,
     children: [
       { index: true, element: <Login /> },
-      { path: '/register', element: <Register /> },
       {
         path: '/dashboard',
         element: (

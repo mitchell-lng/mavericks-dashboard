@@ -7,7 +7,7 @@ import { Card } from "../../components";
 
 import { TextField } from "@mui/material"
 
-import image from "../../assets/Mavs-Facebook.jpg"
+import image from "../../assets/images/Mavs-Facebook.jpg"
 
 const Login = () => {
 	const [username, setUsername] = useState("");

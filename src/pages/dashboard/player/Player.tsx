@@ -237,7 +237,7 @@ const Player = () => {
                 .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                 .map((report, idx) => (
                   <tr key={report.date + report.scoutName + idx}>
-                  <td>{report.date}</td>
+                  <td>{report.date ?? 'N/A'}</td>
                   <td>{report.scoutName}</td>
                   <td>{report.report}</td>
                   </tr>

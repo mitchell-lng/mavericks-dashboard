@@ -37,8 +37,9 @@ The default credentials for testing are:
 * /public
 * /src
   * /assets
+    * intern_project_data.json
     * /fonts
-    * data.json
+    * /images
   * /components
     * Card
   * /hooks
@@ -51,10 +52,23 @@ The default credentials for testing are:
     * /register
     * /settings
   * utils
-    * types.ts
-    * api.ts
+    * `types.ts`
+    * `api.ts`
+    * `fieldData.ts`
   * index.css *global styles are located here*
   * main.tsx *includes all routing information*
+
+All components are organized into folders based on their functionality. The `components` folder contains reusable components, while the `pages` folder contains the main pages of the app. The `hooks` folder contains custom hooks for authentication and data management. The `utils` folder contains utility functions and types used throughout the app.
+
+Styles are managed through a combination of global CSS and component-specific styles. The app uses Flexbox for layout and MUI's styling system for component-specific styles.
+
+Important files include:
+
+* `index.css` contains global styles for the app, including typography, basic components (buttons, toasts), colors, and layout.
+* `main.tsx` is the entry point of the app, where all routing and global context providers are set up.
+* `intern_project_data.json` is a mock data file used to simulate player data. The data is structured as an array of player objects, each containing various attributes such as `playerBio`, `scoutRankings`, and `measurements`.
+* `fieldData.ts` contains the data structure and descriptions of each field. This file is also used to generate the form for the leaderboard pages.
+* `api.ts` contains the mock API functions used to fetch and manage player data. The current implementation uses a mock data file, but this can be replaced with real API calls in a production environment.
 
 ---
 
@@ -87,10 +101,17 @@ The app leverages React's useContext API to share data and functions across comp
     * Confirm successful actions (e.g. “Player added successfully”)
     * Show errors (e.g. “Failed to load rankings”)
     * Use a consistent design system
+* 📁 Upload / Add Player Data
+  * Data can be added via a form or by uploading a JSON file.
+  * The context manages the state of the uploaded data, ensuring:
+    * Immediate availability across components
+    * Easy access to player data for rendering and analysis
 
 ### Example Usage
 
 This example shows how both data and toasts from the useContext can be used.
+
+This context could eventually be used to replace the current mock data with real API calls, allowing for dynamic updates and real-time data fetching. This would enable quick updates and ensuring that users always have access to the most current information.
 
 ```tsx
 import { useData } from '../../../../hooks/DataContext'
@@ -121,7 +142,50 @@ export default const Element = () => {
 ```
 
 ## Data Management
-The app uses a mock data file (`data.json`) to simulate player data. The data is structured as an array of player objects, each containing various attributes such as `playerBio`, `scoutRankings`, and `measurements`. The app fetches this data using a custom API function, which can be replaced with real API calls in a production environment.
+The app uses a mock data file (`intern_project_data.json`) to simulate player data. The data is structured as an array of player objects, each containing various attributes such as `playerBio`, `scoutRankings`, and `measurements`. The app fetches this data using a custom API function, which can be replaced with real API calls in a production environment.
+
+In the future the api.ts file will be replaced with a real API. The current implementation uses a mock data file (`intern_project_data.json`) to simulate player data. The data is structured as an array of player objects, each containing various attributes such as `playerBio`, `scoutRankings`, and `measurements`. The app fetches this data using a custom API function, which can be replaced with real API calls in a production environment.
+
+Data can be uploaded using the `Upload` page, which allows users to fill out a form with player information. The form includes sections for player bio, scout rankings, measurements, and game logs. The data is then stored in the global context and can be accessed from any component in the app. Otherwise the data can be uploaded using a json file. There is a button to upload a json file. The file must be in the correct format, otherwise it will not be uploaded.
+
+The data is structured as follows:
+
+```json
+[
+  {
+    "playerId": 1,
+    "playerBio": {
+      "name": "John Doe",
+      "playerId": 1,
+      ...
+    },
+    "gameLogs": [
+      {
+        "playerId": 1,
+        "gameId": 101,
+        ...
+      },
+      ...
+    ],
+    "seasonLog": {
+      "playerId": 1,
+      "age": "20",
+      ...
+    },
+    "scoutRanking": {
+      "playerId": 1,
+      "ESPN Rank": null,
+      ...
+    },
+    "measurements": {
+      "playerId": 1,
+      "heightNoShoes": null,
+      ...
+    }
+  },
+  ...
+]
+```
 
 The data structure can be mapped using the following types in `types.ts`:
 
@@ -168,11 +232,56 @@ interface FullPlayerData {
 }
 ```
 
-For more details on the data structure please refer to the `fieldData.ts` file. The file contains the data structure and desciprtions of each field. This file is used to generate the form for the leaderboard pages.
+For more details on the data structure please refer to the `fieldData.ts` file. The file contains the data structure and descriptions of each field. 
 
-The data is fetched using the `getData` function in `api.ts`, which can be modified to fetch data from a real API or database. Since this is the only interface to the data, it is easy to swap out the mock data for real data in the future.
+This file is also used to generate the form for the leaderboard pages.
 
-## 📝 How to Add a Player
+## Usage
+
+### How to Run the Project
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd scouting-dashboard
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+4. Open your browser and navigate to `http://localhost:5173`. (Fun fact about Vite's [default port](https://www.reddit.com/r/programming/comments/xh1vyr/fun_fact_vites_default_port_is_5173_which_spells/))
+5. Login using the default credentials (listed in the Authentication section).
+6. Explore the app, add players, and view player profiles.
+
+### How to Build the Project
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd scouting-dashboard
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Build the project:
+   ```bash
+   npm run build
+   ```
+4. The build files will be generated in the `dist` folder.
+5. You can deploy the contents of the `dist` folder to your web server or hosting service.
+6. Open your browser and navigate to the deployed URL.
+7. Login using the default credentials (listed in the Authentication section).
+8. Explore the app, add players, and view player profiles.
+9. To run the app locally, you can use a local server like `http-server` or `serve`:
+   ```bash
+   npm install -g http-server
+   http-server dist
+   ```
+
+### 📝 How to Add a Player
 
 1. Navigate to the `Upload` page.
 2. Fill out the form sections (only player bio is required):
@@ -182,11 +291,17 @@ The data is fetched using the `getData` function in `api.ts`, which can be modif
 3. Required fields are marked (e.g., first name, last name, birthdate).
 4. Click Submit
 
+### How to add a Scouting Report
+
+1. Navigate to the player's individual page.
+2. Fill out the form sections.
+3. Click on the `Add Scouting Report` button.
+4. The scouting report will be added to the player page.
+
 ---
 
 ## 🚧 Roadmap / TODOs
 
-* Include support for importing player stats via json file.
 * Player Page
   * Add player game logs
   * Add player season logs
@@ -195,9 +310,7 @@ The data is fetched using the `getData` function in `api.ts`, which can be modif
   * Add player shooting charts
 * Player Compare
   * Add data to player compare
-  * Improve player search functionality
   * Update player compare to look better
-  * Add graphs!!!
 * Update / Verify responsive design
   * dashboard home
   * players
@@ -208,4 +321,4 @@ The data is fetched using the `getData` function in `api.ts`, which can be modif
 
 ## 📃 License
 
-GNU AFFERO GENERAL PUBLIC LICENSE, more info can be found in the License.txt file.
+GNU AFFERO GENERAL PUBLIC LICENSE, more info can be found in the `License.txt` file.

@@ -3,7 +3,7 @@ import './upload.css'
 import { useData } from '../../../hooks/DataContext'
 import { useState } from 'react'
 
-import type { FullPlayerData } from '../../../utils/types'
+import type { FullPlayerData, PlayerBio, ScoutRanking, PlayerMeasurements, GameLog, SeasonLog } from '../../../utils/types'
 
 import { Card } from '../../../components'
 
@@ -13,6 +13,9 @@ import { DateField } from '@mui/x-date-pickers/DateField'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUpload } from '@fortawesome/free-solid-svg-icons'
 
 const defaultData = {
   playerBio: {
@@ -63,6 +66,48 @@ const defaultData = {
     date: new Date().toISOString().split('T')[0], // Default to today's date
     scoutName: "",
   },
+}
+
+function getMappedData(Data: any) {
+    return new Promise<FullPlayerData[]>((resolve) => {
+        setTimeout(() => {
+            let mappedData : FullPlayerData[] = [];
+
+            const bio = Data.bio;
+            const scoutRankings = Data.scoutRankings;
+            const measurements = Data.measurements;
+            const gameLogs = Data.game_logs;
+            const seasonLogs = Data.seasonLogs;
+            const scoutReports = Data.scoutingReports;
+
+            bio.forEach((player: PlayerBio) => {
+                const playerId = player.playerId;
+                const playerScoutRanking = scoutRankings.find((ranking: ScoutRanking) => ranking.playerId === playerId);
+                const playerMeasurements = measurements.find((measurement: PlayerMeasurements) => measurement.playerId === playerId);
+                const playerGameLogs = gameLogs.filter((log: GameLog) => log.playerId === playerId);
+                const playerSeasonLog = seasonLogs.find((log: SeasonLog) => log.playerId === playerId);
+                const playerScoutReport = scoutReports
+                    .filter((report: any) => report.playerId === playerId)
+                    .map((report: any) => ({
+                        playerId: report.playerId,
+                        report: report.report,
+                        date: report.date,
+                        scoutName: report.scout,
+                    }));
+
+                mappedData.push({
+                    playerId: playerId,
+                    playerBio: player,
+                    scoutRanking: playerScoutRanking,
+                    measurements: playerMeasurements,
+                    gameLogs: playerGameLogs,
+                    seasonLog: playerSeasonLog,
+                    scoutingReports: playerScoutReport,
+                });
+            });
+            resolve(mappedData);
+        }, 1000);
+    });
 }
 
 const Upload = () => {
@@ -134,10 +179,36 @@ const Upload = () => {
     sectionSetter((prev: any) => ({ ...prev, [name]: value }));
   };
 
+  const handleUpload = (e: any) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const jsonData = JSON.parse(event.target?.result as string);
+      
+      getMappedData(jsonData).then((mappedData) => {
+        mappedData.forEach((playerData) => {
+          addPlayer(playerData); // Add each player data to the context or state
+        });
+      });
+    };
+    reader.readAsText(file);
+  };
+
+  const handleFileInput = () => {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = '.json';
+    fileInput.onchange = handleUpload;
+    fileInput.click();
+  };
+
   return (
     <div className="dashboard-subpage-container">
       <header className="dashboard-subpage-header">
         <h1>Upload Player Data</h1>
+        <div className='dashboard-subpage-header-actions'>
+          <button onClick={handleFileInput} className="button button-secondary"><FontAwesomeIcon icon={faUpload} /> Upload JSON</button>
+      </div>
       </header>
       <main className="dashboard-subpage-content">
         <Card className="form-section">

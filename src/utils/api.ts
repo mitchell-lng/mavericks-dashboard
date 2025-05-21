@@ -12,6 +12,7 @@ function getMappedData() {
             const measurements = Data.measurements;
             const gameLogs = Data.game_logs;
             const seasonLogs = Data.seasonLogs;
+            const scoutReports = Data.scoutingReports;
 
             bio.forEach((player: PlayerBio) => {
                 const playerId = player.playerId;
@@ -19,6 +20,14 @@ function getMappedData() {
                 const playerMeasurements = measurements.find((measurement: PlayerMeasurements) => measurement.playerId === playerId);
                 const playerGameLogs = gameLogs.filter((log: GameLog) => log.playerId === playerId);
                 const playerSeasonLog = seasonLogs.find((log: SeasonLog) => log.playerId === playerId);
+                const playerScoutReport = scoutReports
+                    .filter((report: any) => report.playerId === playerId)
+                    .map((report: any) => ({
+                        playerId: report.playerId,
+                        report: report.report,
+                        date: report.date,
+                        scoutName: report.scout,
+                    }));
 
                 mappedData.push({
                     playerId: playerId,
@@ -26,7 +35,8 @@ function getMappedData() {
                     scoutRanking: playerScoutRanking,
                     measurements: playerMeasurements,
                     gameLogs: playerGameLogs,
-                    seasonLog: playerSeasonLog
+                    seasonLog: playerSeasonLog,
+                    scoutingReports: playerScoutReport,
                 });
             });
             resolve(mappedData);
