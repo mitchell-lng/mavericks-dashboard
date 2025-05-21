@@ -17,8 +17,6 @@ nav.sidebar-nav {
     position: sticky;
     top: 20px;
     background-color: var(--sidebar-bg);
-    padding: 15px;
-    border-radius: 10px;
     box-shadow: var(--box-shadow);
 }
 
@@ -47,4 +45,10 @@ nav.sidebar-nav ul {
 .nav-item svg {
     margin-right: 10px;
     fill: currentColor;
+}
+
+@media (max-width: 768px) {
+    #logo {
+        display: none;
+    }
 }

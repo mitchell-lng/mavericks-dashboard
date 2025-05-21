@@ -51,6 +51,7 @@
     flex-direction: row;
     gap: 1rem;
     margin-top: auto;
+    flex-wrap: wrap;
 }
 
 .profile-details {
@@ -89,6 +90,8 @@
     display: flex;
     gap: 2rem;
     margin-top: 1rem;
+    flex-wrap: wrap;
+    justify-content: space-around;
 }
 
 .stats div {
@@ -167,22 +170,17 @@ button {
         grid-template-rows: auto 1fr 1fr 1fr 1fr;
     }
 
-    header {
+    .player-profile header {
         display: none;
     }
 
-    footer {
+    .player-profile footer {
         display: none !important;
-    }
-
-    img {
-        width: auto;
-        max-width: 300px !important;
-        max-height: 400px !important;
     }
 
     .gamelogs-card {
         margin: 0 auto;
         margin-bottom: 1rem;
+        width: 100%;
     }
 }

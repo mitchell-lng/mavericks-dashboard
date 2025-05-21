@@ -13,7 +13,7 @@
 
 .leaderboard-cards {
   display: grid;
-  grid-template-columns: repeat(3, clamp(300px, 30vw, 400px));
+  grid-template-columns: 1fr 1fr;
   gap: 20px;
 }
 
@@ -28,6 +28,24 @@ td, th {
 
 @media (max-width: 768px) {
   .leaderboard-main {
+    flex-direction: column;
+  }
+
+  .leaderboard-switches {
+    flex-direction: row;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 480px) {
+  .leaderboard-switches {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .leaderboard-cards {
     grid-template-columns: 1fr;
   }
 }

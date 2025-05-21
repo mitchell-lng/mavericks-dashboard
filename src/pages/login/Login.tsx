@@ -7,8 +7,6 @@ import { Card } from "../../components";
 
 import { TextField } from "@mui/material"
 
-import image from "../../assets/images/Mavs-Facebook.jpg"
-
 const Login = () => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
@@ -29,9 +27,6 @@ const Login = () => {
 
 	return (
 	<div className='landing'>
-		<div className='landing-background'>
-			<img src={image} alt="Background" />
-		</div>
 		<div className="landing-content">
 			<Card>
 				<Card.Header>

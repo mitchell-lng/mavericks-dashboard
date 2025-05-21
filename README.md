@@ -82,6 +82,18 @@ Important files include:
 
 ---
 
+## 📱 Responsive Design
+
+The app is designed to be fully responsive, adapting to various screen sizes and devices. The layout is built using Flexbox, ensuring that components resize and rearrange themselves appropriately on different screen sizes. The app has been tested on various devices and browsers to ensure a consistent user experience.
+
+If you notice the players page will change which fields are displayed based on the screen size. This is done to ensure that the page is not too cluttered and that the most important information is displayed first.
+
+## Styling Choices
+
+The app uses a combination of global CSS and component-specific styles. The global styles are defined in `index.css`, while component-specific styles are defined in the respective component files. The app uses Flexbox for layout and MUI's styling system for component-specific styles.
+
+The color and font choices have been made to emulate some of the choices from [mavs](https://www.mavs.com/) website. The app uses a clean and modern design, with a focus on readability and usability.
+
 ## 🔁 Global State with React Context
 
 The app leverages React's useContext API to share data and functions across components efficiently.
@@ -302,15 +314,19 @@ This file is also used to generate the form for the leaderboard pages.
 
 ## 🚧 Roadmap / TODOs
 
-* Update / Verify responsive design
-  * dashboard
-    * home
-    * players
-    * player
-    * leaderboard
-    * upload
-    * compare
-  * login
+* Clean up code and remove unused files
+* Clean up and optimize CSS
+
+## 🛠️ Future Improvements
+
+* Implement dark mode support
+* Improve form validation and error handling
+* Add more detailed player statistics and analytics
+* Enhance the user interface and user experience
+* Add more charts and graphs for data visualization
+* Implement a real backend API for data storage and retrieval
+* Add unit tests and integration tests
+* Improve accessibility and keyboard navigation
 
 ## 📃 License
 

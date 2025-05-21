@@ -15,3 +15,9 @@
 .players-actions :first-child {
     margin-left: 0;
 }
+
+.players-list {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}

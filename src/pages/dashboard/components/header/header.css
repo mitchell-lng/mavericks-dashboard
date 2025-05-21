@@ -104,3 +104,20 @@
     font-size: 15px;
     text-align: center;
 }
+
+@media (max-width: 500px) {
+    .header-container {
+        flex-direction: column-reverse;
+        align-items: center;
+        gap: 20px;
+    }
+
+    #header-icons {
+        flex-direction: row;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+}

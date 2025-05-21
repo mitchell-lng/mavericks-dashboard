@@ -67,13 +67,18 @@
         grid-template-rows: auto 1fr auto;
     }
 
+    .card:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transform: translateY(0);
+    }
+
     .card-image {
         grid-column: 1;
         grid-row: 1 / span 3;
         border-radius: var(--card-border-radius) var(--card-border-radius) 0 0;
         width: 100%;
         height: auto;
-        max-width: none;
+        max-width: inherit;
     }
 }
 
