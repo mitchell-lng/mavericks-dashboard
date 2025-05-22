@@ -184,8 +184,8 @@ const Player = () => {
           <Card.Body className='player-info-card bio-card'>
             <div><span>Age</span><span>{new Date().getFullYear() - new Date(playerBio.birthDate).getFullYear()}</span></div>
             <div><span>Height</span><span>{`${Math.floor(playerBio.height / 12)}'${playerBio.height % 12}"`}</span></div>
-            <div><span>Weight</span><span>{measurements?.weight}</span></div>
-            <div><span>Wingspan</span><span>{measurements?.wingspan}</span></div>
+            <div><span>Weight</span><span>{measurements?.weight} lbs</span></div>
+            <div><span>Wingspan</span><span>{measurements?.wingspan} in</span></div>
             <div><span>Birth Date</span><span>{new Date(playerBio.birthDate).toLocaleDateString()}</span></div>
             <div><span>Hometown</span><span>{playerBio.homeTown}, {playerBio.homeState}</span></div>
             <div><span>High School</span><span>{playerBio.highSchool}</span></div>
