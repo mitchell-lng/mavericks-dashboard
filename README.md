@@ -119,6 +119,33 @@ The app leverages React's useContext API to share data and functions across comp
     * Immediate availability across components
     * Easy access to player data for rendering and analysis
 
+The context uses the below type to manage the data and toasts (following a basic RESTful approach and CRUD operations):
+
+```ts
+interface DataContextType {
+  data: {
+    players: FullPlayerData[];
+    bookmarks: FullPlayerData[];
+    leaderboardFields: FullPlayerDataFieldInfoType;
+  };
+  resetData: () => void;
+  addToast: (message: string, type: 'success' | 'error') => void;
+  addBookmark: (playerData: FullPlayerData) => void;
+  removeBookmark: (playerId: number) => void;
+  setPlayers: (players: FullPlayerData[]) => void;
+  removePlayer: (playerId: number) => void;
+  addPlayer: (playerData: FullPlayerData) => void;
+  toggleLeaderboardField: (fieldData: DataFieldMinimum) => void;
+  updatePlayerData: (playerData: FullPlayerData) => void;
+}
+```
+
+Although storing just the ID of the player in the bookmarks would be more efficient, this approach allows for easier access to the full player data when rendering the bookmarks. This is especially useful for displaying player information in a list or card format without needing to fetch additional data.
+
+The `DataContext` is created using the `createContext` function from React. The context provides a way to share data and functions across components without having to pass props down through every level of the component tree.
+
+The `DataProvider` component wraps the entire app, providing the context to all child components. This allows any component to access the data and functions provided by the context.
+
 ### ✍️ Example Usage
 
 This example shows how both data and toasts from the useContext can be used.

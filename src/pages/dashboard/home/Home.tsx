@@ -47,6 +47,7 @@ const Home = () => {
                     <Card.Body>
                       <p>Height: {bookmark.playerBio?.height} in</p>
                       <p>Weight: {bookmark.measurements?.weight} lbs</p>
+                      <p>Wingspan: {bookmark.measurements?.wingspan} in</p>
                       <NavLink className="button button-secondary dashboard-home-cards-button" to={`/dashboard/player/${bookmark.playerId}`}>View Player</NavLink>
                       <button className="button button-error button-secondary" onClick={() => removeBookmark(bookmark.playerId)}>Remove Bookmark</button>
                     </Card.Body>
