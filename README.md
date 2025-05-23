@@ -58,14 +58,14 @@ The default credentials for testing are:
   * index.css *global styles are located here*
   * main.tsx *includes all routing information*
 
-All components are organized into folders based on their functionality. The `components` folder contains reusable components, while the `pages` folder contains the main pages of the app. The `hooks` folder contains custom hooks for authentication and data management. The `utils` folder contains utility functions and types used throughout the app.
+All components are organized into folders based on their functionality. The `components` folder contains reusable components, while the `pages` folder contains the app's main pages. The `hooks` folder contains custom hooks for authentication and data management. The `utils` folder contains utility functions and types used throughout the app.
 
 Styles are managed through a combination of global CSS and component-specific styles. The app uses Flexbox for layout and MUI's styling system for component-specific styles.
 
 Important files include:
 
 * `index.css` contains global styles for the app, including typography, basic components (buttons, toasts), colors, and layout.
-* `main.tsx` is the entry point of the app, where all routing and global context providers are set up.
+* `main.tsx` is the app's entry point, where all routing and global context providers are set up.
 * `intern_project_data.json` is a mock data file used to simulate player data. The data is structured as an array of player objects, each containing various attributes such as `playerBio`, `scoutRankings`, and `measurements`.
 * `fieldData.ts` contains the data structure and descriptions of each field. This file is also used to generate the form for the leaderboard pages.
 * `api.ts` contains the mock API functions used to fetch and manage player data. The current implementation uses a mock data file, but this can be replaced with real API calls in a production environment.
@@ -86,7 +86,7 @@ Important files include:
 
 The app is designed to be fully responsive, adapting to various screen sizes and devices. The layout is built using Flexbox, ensuring that components resize and rearrange themselves appropriately on different screen sizes. The app has been tested on various devices and browsers to ensure a consistent user experience.
 
-If you notice the players page will change which fields are displayed based on the screen size. This is done to ensure that the page is not too cluttered and that the most important information is displayed first.
+If you notice, the player's page changes which fields are displayed based on the screen size. This is done to ensure that the page is not too cluttered and that the most important information is displayed first.
 
 ## Styling Choices
 
@@ -119,7 +119,7 @@ The app leverages React's useContext API to share data and functions across comp
     * Immediate availability across components
     * Easy access to player data for rendering and analysis
 
-The context uses the below type to manage the data and toasts (following a basic RESTful approach and CRUD operations):
+The context uses the following type to manage the data and toasts (following a basic RESTful approach and CRUD operations):
 
 ```ts
 interface DataContextType {
@@ -183,9 +183,9 @@ export default const Element = () => {
 ## 📊 Data Management
 The app uses a mock data file (`intern_project_data.json`) to simulate player data. The data is structured as an array of player objects, each containing various attributes such as `playerBio`, `scoutRankings`, and `measurements`. The app fetches this data using a custom API function, which can be replaced with real API calls in a production environment.
 
-In the future the api.ts file will be replaced with a real API. The current implementation uses a mock data file (`intern_project_data.json`) to simulate player data. The data is structured as an array of player objects, each containing various attributes such as `playerBio`, `scoutRankings`, and `measurements`. The app fetches this data using a custom API function, which can be replaced with real API calls in a production environment.
+In the future, the api.ts file will be replaced with a real API. The current implementation uses a mock data file (`intern_project_data.json`) to simulate player data. The data is structured as an array of player objects, each containing various attributes such as `playerBio`, `scoutRankings`, and `measurements`. The app fetches this data using a custom API function, which can be replaced with real API calls in a production environment.
 
-Data can be uploaded using the `Upload` page, which allows users to fill out a form with player information. The form includes sections for player bio, scout rankings, measurements, and game logs. The data is then stored in the global context and can be accessed from any component in the app. Otherwise the data can be uploaded using a json file. There is a button to upload a json file. The file must be in the correct format, otherwise it will not be uploaded.
+Data can be uploaded using the `Upload` page, which allows users to fill out a form with player information. The form includes sections for player bio, scout rankings, measurements, and game logs. The data is then stored in the global context and can be accessed from any component in the app. Otherwise, the data can be uploaded using a JSON file. There is a button to upload a JSON file. The file must be in the correct format, otherwise, it will not be uploaded.
 
 The data is structured as follows:
 
@@ -271,7 +271,7 @@ interface FullPlayerData {
 }
 ```
 
-For more details on the data structure please refer to the `fieldData.ts` file. The file contains the data structure and descriptions of each field. 
+For more details on the data structure, please refer to the `fieldData.ts` file. The file contains the data structure and descriptions of each field. 
 
 This file is also used to generate the form for the leaderboard pages.
 
